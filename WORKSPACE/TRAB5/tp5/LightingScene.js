@@ -43,6 +43,8 @@ class LightingScene extends CGFscene
 		this.cylinder = new MyCylinder(this, 8, 20);
 		this.lamp = new MyLamp(this, 8, 20);
 
+		this.clock =  new MyClock(this, 12);
+
 		// Materials
 		this.materialDefault = new CGFappearance(this);
 		
@@ -248,6 +250,13 @@ class LightingScene extends CGFscene
 			this.scale(1.5, 1.5, 1.5);
 			this.translate(6, 6, -7);
 			this.lamp.display();
+		this.popMatrix();
+		
+		//Clock
+		this.pushMatrix();
+			this.translate(7.25, 7.2, 0);
+			this.scale(0.75, 0.75, 0.25);
+			this.clock.display();
 		this.popMatrix();
 		// ---- END Scene drawing section
 	};
