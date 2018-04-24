@@ -31,19 +31,33 @@ class LightingScene extends CGFscene
 		this.enableTextures(true);
 
 		// Scene elements
+		//tables
 		this.table = new MyTable(this);
+		//wall
 		this.FrontWall = new Plane(this);
 		this.LeftWall = new MyQuad(this,-0.5, 1.5, -0.5, 1.5);
+		//floor
 		this.floor = new MyQuad(this, 0, 10, 0, 12);
 		
+		//left board A
 		this.boardA = new Plane(this,0, 1, 0.1, 0.8, BOARD_A_DIVISIONS);
+		//right board B
 		this.boardB = new Plane(this,0, 1, 0, 1, BOARD_B_DIVISIONS);
-	
-		this.prism = new MyPrism(this, 8, 20);
-		this.cylinder = new MyCylinder(this, 8, 20);
+		
+		//prism
+		this.prism = new MyPrism(this, 8, 20);		
+		//cylinder
+		this.cylinder = new MyCylinder(this, 8, 20);		
+		//lamp
 		this.lamp = new MyLamp(this, 8, 20);
 
+		//clock
 		this.clock =  new MyClock(this, 12);
+		//paper plane
+		this.paperPlane = new MyPaperPlane(this);
+
+		//UPDATE TIME
+		this.setUpdatePeriod(100);
 
 		// Materials
 		this.materialDefault = new CGFappearance(this);
@@ -74,15 +88,30 @@ class LightingScene extends CGFscene
 		this.boardAppearance.setDiffuse(0.25, 0.25, 0.25, 1);
 		this.boardAppearance.setSpecular(0.4,0.4,0.4,1);
 		this.boardAppearance.setShininess(120);
-
+		this.boardAppearance.loadTexture("../resources/images/board.png");
+//FlOOR
 		this.floorAppearance = new CGFappearance(this);
 		this.floorAppearance.loadTexture("../resources/images/floor.png");
-		
+
+//WINDOW
 		this.windowAppearance = new CGFappearance(this);
 		this.windowAppearance.loadTexture("../resources/images/window.png");
 		this.windowAppearance.setTextureWrap('CLAMP_TO_EDGE', 'CLAMP_TO_EDGE');
+
+//COLLUMNS PRISM AND CYLLINDER
+		this.marbleAppearance = new CGFappearance(this);
+		this.marbleAppearance.loadTexture("../resources/images/marble.png");
+		this.marbleAppearance.setSpecular(0.8,0.8,0.8,1);
+		this.marbleAppearance.setShininess(110);
+		this.marbleAppearance.setDiffuse(0.5,0.5,0.5,1);
+
+//PAPERPLANE
+		this.planeAppearance = new CGFappearance(this);
+		this.planeAppearance.setDiffuse(0.95,0.95,0.95,1);
+		this.planeAppearance.setSpecular(0.05,0.05,0.05,1);
+		this.planeAppearance.setShininess(20);
 		
-		this.boardAppearance.loadTexture("../resources/images/board.png");
+
 	};
 
 	initCameras() 
@@ -225,7 +254,6 @@ class LightingScene extends CGFscene
 			this.boardAppearance.apply();
 			this.boardB.display();
 		this.popMatrix();
-		
 		this.materialDefault.apply();
 		
 		//Prism
@@ -233,6 +261,7 @@ class LightingScene extends CGFscene
 			this.rotate(-Math.PI/2, 1, 0, 0);
 			this.scale(1, 1, 7);
 			this.translate(5, -13, 0);
+			this.marbleAppearance.apply();
 			this.prism.display();
 		this.popMatrix();
 		
@@ -241,6 +270,7 @@ class LightingScene extends CGFscene
 			this.rotate(-Math.PI/2, 1, 0, 0);
 			this.scale(1, 1, 7);
 			this.translate(12, -13, 0);
+			this.marbleAppearance.apply();
 			this.cylinder.display();
 		this.popMatrix();
 
@@ -249,6 +279,7 @@ class LightingScene extends CGFscene
 			this.rotate(Math.PI/2, 1, 0, 0);
 			this.scale(1.5, 1.5, 1.5);
 			this.translate(6, 6, -7);
+			this.marbleAppearance.apply();
 			this.lamp.display();
 		this.popMatrix();
 		
@@ -258,6 +289,33 @@ class LightingScene extends CGFscene
 			this.scale(0.75, 0.75, 0.25);
 			this.clock.display();
 		this.popMatrix();
+
+		//Paper Plane
+		this.pushMatrix();
+			this.translate(this.paperPlane.x, this.paperPlane.y, this.paperPlane.z);
+			
+			if(!this.paperPlane.isFalling){	
+			this.rotate(3*Math.PI/2,0,1,0);
+			this.rotate(Math.PI/2,1,0,0);
+			}
+			else if (this.paperPlane.isFalling){
+					this.rotate(Math.PI,0,0,1);
+					this.rotate(-Math.PI/2,0,1,0);
+					}
+					else if (this.paperPlane.isOnTheGround){
+							this.rotate(3*Math.PI/2,0,1,0);
+							this.rotate(Math.PI/2,1,0,0);
+							}
+							
+			this.planeAppearance.apply();
+			this.paperPlane.display();
+		this.popMatrix();
 		// ---- END Scene drawing section
 	};
+
+	update(currTime) {
+		//this.clock.update(currTime);
+		this.paperPlane.update();
+	};
+
 };
