@@ -10,8 +10,6 @@ class MyClock extends CGFobject
 	{
 		super(scene);
 
-		this.first = 1;
-
 		this.circle =  new MyCircle(this.scene, 12);
 		this.cyclinder =  new MyCylinder(this.scene, 12, 1);
 
@@ -51,24 +49,24 @@ class MyClock extends CGFobject
 		this.scene.popMatrix();
 	};
 
-	update(currTime){
-		var time = currTime / 1000;
-		
-		if(this.first == 1){
-			var Hang = (time * 360/60/60/12) % 360;
-			var Mang = (time * 360/60/60) % 360;
-			var Sang = (time * 360/60) % 360;
-			this.first = 0;
+	update(currTime, flag){
+		var time = currTime/1000;
+	
+		if(flag == 1){
+			var Hang = (time * 360/60/60/12);
+			var Mang = (time * 360/60/60);
+			var Sang = (time * 360/60);
 		}
 		
-		if(this.first == 0){
-			var Hang = (this.hPointer.angle + time * 360/60/60/12) % 360;
-			var Mang = (this.mPointer.angle + time * 360/60/60) % 360;
-			var Sang = (this.sPointer.angle + time * 360/60) % 360;
+		if(flag == 0){
+			var Hang = (this.hPointer.angle + time * 360/60/60/12);
+			var Mang = (this.mPointer.angle + time * 360/60/60);
+			var Sang = (this.sPointer.angle + time * 360/60);
 		}
 
 		this.hPointer.setAngle(Hang);
 		this.mPointer.setAngle(Mang);
 		this.sPointer.setAngle(Sang);
+		
 	};
 };

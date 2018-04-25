@@ -322,14 +322,14 @@ class LightingScene extends CGFscene
 	update(currTime) {
 		if(this.first == 1){
 			this.lastTime = currTime;
+			this.clock.update(currTime, 1);
 			this.first = 0;
 		}
 
 		if(this.first == 0){
-			this.lastTime = this.lastTime;
 			this.varTime = currTime - this.lastTime;
 			this.lastTime = currTime;
-			this.clock.update(this.varTime);
+			this.clock.update(this.varTime, 0);
 		}
 		
 		this.paperPlane.update();
