@@ -1,11 +1,5 @@
 var degToRad = Math.PI / 180.0;
 
-var BOARD_WIDTH = 6.0;
-var BOARD_HEIGHT = 4.0;
-
-var BOARD_A_DIVISIONS = 30;
-var BOARD_B_DIVISIONS = 100;
-
 class LightingScene extends CGFscene 
 {
 	constructor()
@@ -32,21 +26,14 @@ class LightingScene extends CGFscene
 
 		/*** SCENE ELEMENTS ***/
 		this.car = new MyVehicle(this);
+		this.terrain = new MyTerrain(this);
+		
+		// Materials
+		this.materialDefault = new CGFappearance(this);
 
 		//UPDATE TIME
 		/*this.first = 1;
 		this.setUpdatePeriod(100);*/
-
-		// Materials
-		this.materialDefault = new CGFappearance(this);
-		
-		//SLIDE LEFT
-		/*this.slidesAppearance = new CGFappearance(this);
-		this.slidesAppearance.setAmbient(0.3,0.3,0.3,1);
-		this.slidesAppearance.setDiffuse(0.8,0.8,0.8,1);
-		this.slidesAppearance.setSpecular(0.1,0.1,0.1,1);
-		this.slidesAppearance.setShininess(10);
-		this.slidesAppearance.loadTexture("../resources/images/slides.png");*/
 
 	};
 
@@ -94,6 +81,11 @@ class LightingScene extends CGFscene
 		this.lights[3].setLinearAttenuation(0);
 		this.lights[3].setQuadraticAttenuation(0.2);
 		this.lights[3].enable();
+
+		/*this.lights[0].setPosition(15, 2, 5, 1);
+        this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
+        this.lights[0].enable();
+        this.lights[0].update();*/
 	
 	};
 
@@ -132,8 +124,17 @@ class LightingScene extends CGFscene
 		// ---- BEGIN Scene drawing section
 
 		//Car
-		this.car.display();
-		
+		this.pushMatrix();
+			this.translate(0, 1.3, 0);
+			this.car.display();
+		this.popMatrix();
+
+		//Terrain
+		this.pushMatrix();
+			this.rotate(-Math.PI/2, 1, 0, 0);
+			this.scale(20, 20, 0.2);
+			this.terrain.display();
+		this.popMatrix();
 	};
 
 	/*update(currTime) {
