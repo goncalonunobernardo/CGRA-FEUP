@@ -15,7 +15,7 @@ class LightingScene extends CGFscene
 
 		this.initLights();
 
-		this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
+		this.gl.clearColor(0.529, 0.808, 0.922, 1.0);
 		this.gl.clearDepth(100.0);
 		this.gl.enable(this.gl.DEPTH_TEST);
 		this.gl.enable(this.gl.CULL_FACE);
@@ -48,35 +48,36 @@ class LightingScene extends CGFscene
 		
 		// Positions for four lights
 		this.lights[0].setPosition(4, 6, 1, 1);
-		this.lights[0].setVisible(true); // show marker on light position (different from enabled)
+		//this.lights[0].setVisible(true); // show marker on light position (different from enabled)
 		
-		this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
-		this.lights[1].setVisible(true); // show marker on light position (different from enabled)
+		this.lights[1].setPosition(-10, -6.0, -1.0, -1.0);
+		//this.lights[1].setVisible(true); // show marker on light position (different from enabled)
 
 		this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
-		this.lights[2].setVisible(true); // show marker on light position (different from enabled)
+		//this.lights[2].setVisible(true); // show marker on light position (different from enabled)
 
 		this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
-		this.lights[3].setVisible(true); // show marker on light position (different from enabled)
+		//this.lights[3].setVisible(true); // show marker on light position (different from enabled)
 
 		this.lights[0].setAmbient(0, 0, 0, 1);
 		this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-		this.lights[0].setSpecular(0.8,0.8,0,1.0);
+		//this.lights[0].setSpecular(0.8,0.8,0,1.0);
 		this.lights[0].enable();
 
 		this.lights[1].setAmbient(0, 0, 0, 1);
 		this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
+		//this.lights[1].setSpecular(0.8,0.8,0,1.0);
 		this.lights[1].enable();
 
 		this.lights[2].setAmbient(0, 0, 0, 1);
-		this.lights[2].setSpecular(1,1,1,1);
+		//this.lights[2].setSpecular(0.8,0.8,0,1.0);
 		this.lights[2].setConstantAttenuation(0);
 		this.lights[2].setLinearAttenuation(1.0);
 		this.lights[2].setQuadraticAttenuation(0);
 		this.lights[2].enable();
 		
 		this.lights[3].setAmbient(0, 0, 0, 1);
-		this.lights[2].setSpecular(1,1,1,1);
+		//this.lights[3].setSpecular(0.8,0.8,0,1.0);
 		this.lights[3].setConstantAttenuation(0);
 		this.lights[3].setLinearAttenuation(0);
 		this.lights[3].setQuadraticAttenuation(0.2);
