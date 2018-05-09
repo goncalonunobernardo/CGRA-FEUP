@@ -53,38 +53,67 @@ class MyInterface extends CGFinterface {
 
 		this.gui.add(this.scene, 'speed', -5, 5);
 
+		this.initKeys();
+
 		return true;
 	};
 
 	/**
-	 * processKeyboard
+	 * initKeys
+	 */
+	initKeys() {
+		this.scene.gui=this;
+		this.processKeyboard=function(){};
+		this.activeKeys={};
+	}
+
+	/**
+	 * processKeyDown
 	 * @param event {Event}
 	 */
-	processKeyboard(event) {
-		// call CGFinterface default code (omit if you want to override)
-		super.processKeyboard(event);
-
-		// Check key codes e.g. here: http://www.asciitable.com/
-		// or use String.fromCharCode(event.keyCode) to compare chars
-
-		// for better cross-browser support, you may also check suggestions on using event.which in http://www.w3schools.com/jsref/event_key_keycode.asp
-		switch (event.keyCode)
-		{
-			case (65):	// only works for capital 'A', as it is
-				console.log("Key 'A' pressed");
-		};
+	processKeyDown(event) {
+		this.activeKeys[event.code]=true;
 	};
+
+	/**
+	 * processKeyUp
+	 * @param event {Event}
+	 */
+	processKeyUp(event) {
+		this.activeKeys[event.code]=false;
+	};
+
+	/**
+	 * isKeyPressed
+	 * @param keyCode {int}
+	 */
+	isKeyPressed(keyCode) {
+		return this.activeKeys[keyCode] || false;
+	}
+
+
+/**
+ * processKeyboard
+ * @param event {Event}
+ */
+	processKeyboard(event) {
+	//Process to obtain unicode
+		var x = event.keyCode || event.which;
+
+		if (x == 65 || x == 97){
+			this.scene.submarine.pushLeft(-.003);
+		}
+		else
+		if (x == 68 ||x == 100)	{
+			this.scene.submarine.pushRight(-.003)
+		}
+		else
+		if (x == 87 || x == 119){
+			this.scene.submarine.pushForward(0.03);
+		}
+		else
+		if (x == 83 || x == 115)	{
+			this.scene.submarine.pushBackward(0.03);
+		}
+	}
 };
-
-/*
-		// init GUI. For more information on the methods, check:
-		//  http://workshop.chromeexperiments.com/examples/gui
-
-		this.gui = new dat.GUI();
-		
-
-		// add a button:
-		// the first parameter is the object that is being controlled (in this case the scene)
-		// the identifier 'doSomething' must be a function declared as part of that object (i.e. a member of the scene class)
-		// e.g. LightingScene.prototype.doSomething = function () { console.log("Doing something..."); }; 
-*/

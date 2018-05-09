@@ -127,6 +127,8 @@ class LightingScene extends CGFscene
 		// Draw axis
 		this.axis.display();
 
+		//KEYS
++       this.checkKeys();
 		this.materialDefault.apply();
 
 		// ---- END Background, camera and axis setup
@@ -207,4 +209,33 @@ class LightingScene extends CGFscene
         console.log("Axis ERASED..."); 
     };
 
+
+    checkKeys() {
+        var text="Key pressed: ";
+        var keysPressed=false;
+
+        if (this.gui.isKeyPressed("KeyW")) {
+            text+=" W ";
+            keysPressed=true;
+        }
+
+        if (this.gui.isKeyPressed("KeyS")) {
+            text+=" S ";
+            keysPressed=true;
+        }
+
+        if (this.gui.isKeyPressed("KeyA")) {
+            text+=" A ";
+            keysPressed=true;
+        }
+
+        if (this.gui.isKeyPressed("KeyD")) {
+            text+=" D ";
+            keysPressed=true;
+        }
+
+        if (keysPressed) {
+            console.log(text);
+        }
+    }
 };
