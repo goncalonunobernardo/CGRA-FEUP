@@ -34,6 +34,15 @@ class LightingScene extends CGFscene
 		//UPDATE TIME
 		/*this.first = 1;
 		this.setUpdatePeriod(100);*/
+		
+		//LIGHT GROUP
+		this.Light1=true; 
+        this.Light2=false;
+        this.Light3=false;
+        this.Light4=false;
+
+        this.speed=3;
+
 
 	};
 
@@ -153,4 +162,49 @@ class LightingScene extends CGFscene
 		
 		this.paperPlane.update();
 	};*/
+
+	//doSomething()
+	//{ console.log("Doing something..."); }
+
+	    updateLights()
+    {
+        for (var i = 0; i < this.lights.length; i++){
+            this.lights[i].update();
+        }
+
+            if(this.Light1){
+                this.lights[0].enable();
+            } else {
+                this.lights[0].disable();
+            }
+
+            if(this.Light2){
+                this.lights[1].enable();
+            } else {
+                this.lights[1].disable();
+            }
+
+            if(this.Light3){
+                this.lights[2].enable();
+            } else {
+                this.lights[2].disable();
+            }
+
+            if(this.Light4){
+                this.lights[3].enable();
+            } else {
+                this.lights[3].disable();
+            }
+    }
+    
+    activate_axis(){
+       this.axis = new CGFaxis(this);
+       this.axis.display();
+       console.log("Axis DRAWN");  
+    }
+    deactivate_axis(){ 
+        this.axis = new CGFaxis(this, 0, 0);
+        console.log("Axis ERASED..."); 
+    };
+
 };
