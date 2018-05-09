@@ -11,7 +11,8 @@ class MyVehicle extends CGFobject
 		super(scene);
         
         this.body = new MyUnitCubeQuad(this.scene, 0, 1, 0, 1);
-        this.upperBody = new MyUnitCubeQuad(this.scene, 0, 1, 0, 1);
+        this.upperBody = new MyUpperBody(this.scene);
+		this.test = new MyUnitCubeQuad(this.scene, 0, 1, 0, 1);
 
         this.wheel = new MyWheel(this.scene);
        
@@ -27,11 +28,9 @@ class MyVehicle extends CGFobject
 	   this.scene.popMatrix();
 		
 		//UPPER BODY
-	   this.scene.pushMatrix();
-	   		this.scene.translate(0, 1.25, 0);
-	   		this.scene.scale(2, 1, 1.5);
-	   		this.upperBody.display();
-	   this.scene.popMatrix();
+		this.scene.pushMatrix();
+			this.upperBody.display();
+		this.scene.popMatrix();
 		
 		//BACK LEFT WHEEL
 	   this.scene.pushMatrix();
