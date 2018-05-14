@@ -6,11 +6,11 @@
 
 class MyTerrain extends CGFobject
 {
-	constructor(scene) //ROTATION ARGS 
+	constructor(scene, nrDivs, altimetry) //ROTATION ARGS 
 	{
 		super(scene);
 
-        this.land = new Plane(this.scene, 0, 50, 0, 50, 100);
+        this.land = new Plane(this.scene, nrDivs, altimetry);
 
         this.landAppearance = new CGFappearance(this.scene);
         //this.wheelAppearance.setAmbient(r, g, b, a);
@@ -24,7 +24,9 @@ class MyTerrain extends CGFobject
 
 	display(scene) 
 	{
+	this.scene.pushMatrix();
 	  this.landAppearance.apply();
 	  this.land.display();
+	  this.scene.popMatrix();
 	};
 };

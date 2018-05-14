@@ -23,10 +23,6 @@ class LightingScene extends CGFscene
 
 		this.axis = new CGFaxis(this);
 		this.enableTextures(true);
-
-		/*** SCENE ELEMENTS ***/
-		this.car = new MyVehicle(this);
-		this.terrain = new MyTerrain(this);
 		
 		// Materials
 		this.materialDefault = new CGFappearance(this);
@@ -43,6 +39,20 @@ class LightingScene extends CGFscene
 
         this.speed=3;
 
+        this.altimetry = [[ 2.0 , 3.0 , 2.0, 4.0, 2.5, 2.4, 2.3, 1.3 ],
+                         [ 2.0 , 3.0 , 2.0, 4.0, 7.5, 6.4, 4.3, 1.3 ],
+                         [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                         [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                         [ 0.0 , 0.0 , 2.0, 4.0, 2.5, 2.4, 0.0, 0.0 ],
+                         [ 0.0 , 0.0 , 2.0, 4.0, 3.5, 2.4, 0.0, 0.0 ],
+                         [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                         [ 0.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                         [ 2.0 , 3.0 , 2.0, 1.0, 2.5, 2.4, 2.3, 1.3 ]];    		
+
+		
+		/*** SCENE ELEMENTS ***/
+		this.car = new MyVehicle(this);
+		this.terrain = new MyTerrain(this,8,this.altimetry);
 
 	};
 
@@ -137,14 +147,15 @@ class LightingScene extends CGFscene
 
 		//Car
 		this.pushMatrix();
-			this.translate(0, 1.3, 0);
+      		this.translate(-9, 1.3, 0);
+			this.rotate(-Math.PI/2, 0, 1, 0);
 			this.car.display();
 		this.popMatrix();
 
 		//Terrain
 		this.pushMatrix();
 			this.rotate(-Math.PI/2, 1, 0, 0);
-			this.scale(20, 20, 0.2);
+			this.scale(50, 50, 1.2);
 			this.terrain.display();
 		this.popMatrix();
 	};
