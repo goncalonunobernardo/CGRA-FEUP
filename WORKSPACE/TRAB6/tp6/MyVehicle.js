@@ -9,7 +9,23 @@ class MyVehicle extends CGFobject
 	constructor(scene) 
 	{
 		super(scene);
-        
+//VEHICLE POSITION
+		this.x = 0;
+		this.y = 1.3;
+		this.z = 0;
+
+//VEHICLE LOGIC
+		this.a = 0;
+		this.b = 0;
+		this.h_speed = 0;
+		this.h_angspeed = 0;
+
+		this.time = 0;
+		this.max_h_speed = .3;
+		this.max_h_angspeed = .07;
+		this.h_rotation_ang =0;
+ 
+ //STRUCTURE
         this.body = new MyUnitCubeQuad(this.scene, 0, 1, 0, 1);
         this.upperBody = new MyUpperBody(this.scene);
 		this.test = new MyUnitCubeQuad(this.scene, 0, 1, 0, 1);
@@ -86,4 +102,72 @@ class MyVehicle extends CGFobject
 			this.extraWheel.display();
 		this.scene.popMatrix();
 	};
+
+
+	update(currTime)
+	{
+		this.moveForward(this.h_speed);
+  		this.rotateRight(this.h_angspeed);
+
+  		this.h_speed *=.99;
+		this.h_angspeed *=0.95;
+
+		if(this.scene.car.h_rotation_ang >0)
+		this.scene.car.h_rotation_ang -= 1.5;
+
+		if(this.scene.car.h_rotation_ang <0)
+		this.scene.car.h_rotation_ang += 1.5;
+
+		if(this.a<0)this.a+= 0.4;
+
+		if(this.a>0) this.a-= 0.4;
+
+
+   		this.time = currTime;
+    
+	}
+	
+
+	moveForward(amount) {
+		var yval = amount * Math.cos(this.b);
+		var xval = amount * Math.sin(this.b);
+
+		this.y+= yval;
+  		this.x+= xval;
+	};
+
+	pushForward(amount) {
+		if(Math.abs(this.h_speed + amount) <= this.max_h_speed)
+			this.h_speed += amount;
+		
+		else if (this.h_speed > 0) this.h_speed = this.max_h_speed;
+		else this.h_speed = -max_h_speed;
+	};
+
+	pushBackwards(amount) {
+		this.pushForward(-amount);
+	};
+
+	pushLeft(amount) {
+		if(Math.abs(this.h_angspeed + amount) <= this.max_h_angspeed)
+			this.h_angspeed+=amount;
+		else if(this.h_angspeed > 0) this.h_angspeed = this.max_h_angspeed;
+		else this.h_angspeed = -this.max_h_angspeed;		
+	};
+
+	pushRight(amount){
+		if(Math.abs(this.h_angspeed - amount) <= this.max_h_angspeed)
+			this.h_angspeed-=amount;
+		else if(this.h_angspeed > 0) this.h_angspeed = this.max_h_angspeed;
+		else this.h_angspeed = -this.max_h_angspeed;		
+	};
+
+	rotateRight(amount)
+	{
+	 this.b -= amount;
+  
+ 	 if(this.scene.car.h_rotation_ang < 45 && amount >0.01) this.scene.car.h_rotation_ang += 5;
+ 	 if(this.scene.car.h_rotation_ang > -45 && amount <-0.01) this.scene.car.h_rotation_ang -= 5;
+	};
+
 };

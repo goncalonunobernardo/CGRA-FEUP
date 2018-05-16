@@ -28,8 +28,7 @@ class LightingScene extends CGFscene
 		this.materialDefault = new CGFappearance(this);
 
 		//UPDATE TIME
-		/*this.first = 1;
-		this.setUpdatePeriod(100);*/
+		this.stop = false;
 		
 		//LIGHT GROUP
 		this.Light1=true; 
@@ -38,22 +37,26 @@ class LightingScene extends CGFscene
         this.Light4=false;
 
         this.speed=3;
+		this.updatePeriod=50;
+		this.setUpdatePeriod(this.updatePeriod);
 
-        this.altimetry = [[ 2.0 , 5.0 , 2.0, 2.0, 5.0, 10.0, 8.0, 2.0 ],
-                         [ 2.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 2.0 ],
-                         [ 2.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+        this.altimetry = [[ 2.0 , 5.0 , 8.0, 2.0, 5.0, 10.0, 8.0, 2.0 ],
+                         [ 2.0 , 4.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 2.0 ],
+                         [ 2.0 , 3.0 , 7.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
                          [ 8.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-                         [ 2.0 , 0.0 , 0.0, 5.0, 0.0, 0.0, 0.0, 0.0 ],
-                         [ 2.0 , 0.0 , 0.0, 0.0, 8.0, 0.0, 0.0, 0.0 ],
+                         [ 2.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+                         [ 7.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
                          [ 6.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-                         [ 2.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 8.0, 2.0 ],
-                         [ 2.0 , 5.0 , 2.0, 2.0, 2.0, 2.0, 2.0, 9.0 ]];    		
+                         [ 2.0 , 3.0 , 0.0, 0.0, 0.0, 0.0, 8.0, 2.0 ],
+                         [ 2.0 , 5.0 , 2.0, 4.0, 4.0, 2.0, 2.0, 9.0 ]];    		
 
 		
 		/*** SCENE ELEMENTS ***/
 		this.car = new MyVehicle(this);
 		this.terrain = new MyTerrain(this,8,this.altimetry);
-
+		//this.sign = new Plane();  este sign é uma espécie de cartaz
+		//que eu curtia meter "preso" a um dos montes para dar contexto à cena, depois faço a imagem para meteres
+	
 	};
 
 	initCameras() 
@@ -147,7 +150,7 @@ class LightingScene extends CGFscene
 
 		//Car
 		this.pushMatrix();
-      		this.translate(-9, 1.3, 0);
+      		this.translate(0, 1.3, 0);
 			this.rotate(-Math.PI/2, 0, 1, 0);
 			this.car.display();
 		this.popMatrix();
@@ -160,24 +163,6 @@ class LightingScene extends CGFscene
 		this.popMatrix();
 	};
 
-	/*update(currTime) {
-		if(this.first == 1){
-			this.lastTime = currTime;
-			this.clock.update(currTime, 1);
-			this.first = 0;
-		}
-
-		if(this.first == 0){
-			this.varTime = currTime - this.lastTime;
-			this.lastTime = currTime;
-			this.clock.update(this.varTime, 0);
-		}
-		
-		this.paperPlane.update();
-	};*/
-
-	//doSomething()
-	//{ console.log("Doing something..."); }
 
 	    updateLights()
     {
@@ -210,18 +195,21 @@ class LightingScene extends CGFscene
             }
     }
     
-    activate_axis(){
+    	activate_axis()
+    {
        this.axis = new CGFaxis(this);
        this.axis.display();
        console.log("Axis DRAWN");  
     }
-    deactivate_axis(){ 
+    	deactivate_axis()
+    { 
         this.axis = new CGFaxis(this, 0, 0);
         console.log("Axis ERASED..."); 
     };
 
 
-    checkKeys() {
+    	checkKeys()
+   	{
         var text="Key pressed: ";
         var keysPressed=false;
 
@@ -248,5 +236,10 @@ class LightingScene extends CGFscene
         if (keysPressed) {
             console.log(text);
         }
-    }
+    };
+
+    	update(currTime)
+    {
+    	if(!this.pause) { this.car.update(currTime); }
+    };
 };

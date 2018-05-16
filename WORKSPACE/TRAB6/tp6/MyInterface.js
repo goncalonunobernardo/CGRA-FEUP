@@ -101,19 +101,19 @@ class MyInterface extends CGFinterface {
 		var x = event.keyCode || event.which;
 
 		if (x == 65 || x == 97){
-			this.scene.submarine.pushLeft(-.003);
+			this.scene.car.pushLeft(-.003);
 		}
 		else
 		if (x == 68 ||x == 100)	{
-			this.scene.submarine.pushRight(-.003)
+			this.scene.car.pushRight(-.003)
 		}
 		else
 		if (x == 87 || x == 119){
-			this.scene.submarine.pushForward(0.03);
+			this.scene.car.pushForward(0.03);
 		}
 		else
 		if (x == 83 || x == 115)	{
-			this.scene.submarine.pushBackward(0.03);
+			this.scene.car.pushBackwards(0.03);
 		}
 	}
 };
