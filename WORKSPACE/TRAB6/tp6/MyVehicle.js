@@ -14,13 +14,15 @@ class MyVehicle extends CGFobject
 		this.z = 0;
 
 //VEHICLE LOGIC
+		//angularspeed
 		this.a = 0;
+		//angle
 		this.b = 0;
 		this.h_speed = 0;
 		this.h_angspeed = 0;
 
 		this.time = 0;
-		this.max_h_speed = .3;
+		this.max_h_speed = .5;
 		this.max_h_angspeed = .07;
 		this.h_rotation_ang =0;
 

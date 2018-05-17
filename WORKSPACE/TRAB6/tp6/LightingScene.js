@@ -7,6 +7,8 @@ class LightingScene extends CGFscene
 		super();
 	};
 
+// TODO: PAINEL; TEXTURAS; GUINDASTE; VALORIZAÇÃO NO W E S;
+
 	init(application)
 	{
 		super.init(application);
