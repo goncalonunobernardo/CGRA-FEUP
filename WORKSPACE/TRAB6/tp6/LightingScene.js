@@ -1,13 +1,13 @@
 var degToRad = Math.PI / 180.0;
 
-class LightingScene extends CGFscene 
+class LightingScene extends CGFscene
 {
 	constructor()
 	{
 		super();
 	};
 
-	init(application) 
+	init(application)
 	{
 		super.init(application);
 
@@ -23,20 +23,20 @@ class LightingScene extends CGFscene
 
 		this.axis = new CGFaxis(this);
 		this.enableTextures(true);
-		
+
 		// Materials
 		this.materialDefault = new CGFappearance(this);
 
 		//UPDATE TIME
 		this.stop = false;
-		
-		//LIGHT GROUP
-		this.Light1=true; 
-        this.Light2=false;
-        this.Light3=false;
-        this.Light4=false;
 
-        this.speed=3;
+		//LIGHT GROUP
+		this.Light1=true;
+    this.Light2=false;
+    this.Light3=false;
+    this.Light4=false;
+
+    this.speed=3;
 		this.updatePeriod=50;
 		this.setUpdatePeriod(this.updatePeriod);
 
@@ -48,30 +48,30 @@ class LightingScene extends CGFscene
                          [ 7.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
                          [ 6.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
                          [ 2.0 , 3.0 , 0.0, 0.0, 0.0, 0.0, 8.0, 2.0 ],
-                         [ 2.0 , 5.0 , 2.0, 4.0, 4.0, 2.0, 2.0, 9.0 ]];    		
+                         [ 2.0 , 5.0 , 2.0, 4.0, 4.0, 2.0, 2.0, 9.0 ]];
 
-		
+
 		/*** SCENE ELEMENTS ***/
 		this.car = new MyVehicle(this);
 		this.terrain = new MyTerrain(this,8,this.altimetry);
 		//this.sign = new Plane();  este sign é uma espécie de cartaz
 		//que eu curtia meter "preso" a um dos montes para dar contexto à cena, depois faço a imagem para meteres
-	
+
 	};
 
-	initCameras() 
+	initCameras()
 	{
 		this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
 	};
 
-	initLights() 
+	initLights()
 	{
 		this.setGlobalAmbientLight(0,0,0, 1.0);
-		
+
 		// Positions for four lights
 		this.lights[0].setPosition(4, 6, 1, 1);
 		//this.lights[0].setVisible(true); // show marker on light position (different from enabled)
-		
+
 		this.lights[1].setPosition(-10, -6.0, -1.0, -1.0);
 		//this.lights[1].setVisible(true); // show marker on light position (different from enabled)
 
@@ -97,7 +97,7 @@ class LightingScene extends CGFscene
 		this.lights[2].setLinearAttenuation(1.0);
 		this.lights[2].setQuadraticAttenuation(0);
 		this.lights[2].enable();
-		
+
 		this.lights[3].setAmbient(0, 0, 0, 1);
 		//this.lights[3].setSpecular(0.8,0.8,0,1.0);
 		this.lights[3].setConstantAttenuation(0);
@@ -109,17 +109,17 @@ class LightingScene extends CGFscene
         this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
         this.lights[0].enable();
         this.lights[0].update();*/
-	
+
 	};
 
-	updateLights() 
+	updateLights()
 	{
 		for (var i = 0; i < this.lights.length; i++)
 			this.lights[i].update();
 	}
 
 
-	display() 
+	display()
 	{
 		// ---- BEGIN Background, camera and axis setup
 
@@ -141,7 +141,7 @@ class LightingScene extends CGFscene
 		this.axis.display();
 
 		//KEYS
-+       this.checkKeys();
+  	this.checkKeys();
 		this.materialDefault.apply();
 
 		// ---- END Background, camera and axis setup
@@ -194,52 +194,64 @@ class LightingScene extends CGFscene
                 this.lights[3].disable();
             }
     }
-    
+
     	activate_axis()
     {
        this.axis = new CGFaxis(this);
        this.axis.display();
-       console.log("Axis DRAWN");  
+       console.log("Axis DRAWN");
     }
     	deactivate_axis()
-    { 
+    {
         this.axis = new CGFaxis(this, 0, 0);
-        console.log("Axis ERASED..."); 
+        console.log("Axis ERASED...");
     };
 
 
-    	checkKeys()
+    	checkKeys(currTime)
    	{
         var text="Key pressed: ";
         var keysPressed=false;
+				if(!this.pause) {
+				this.car.update(currTime);
 
         if (this.gui.isKeyPressed("KeyW")) {
             text+=" W ";
             keysPressed=true;
+
+						this.car.pushForward(0.03);
+
         }
 
         if (this.gui.isKeyPressed("KeyS")) {
             text+=" S ";
             keysPressed=true;
+
+						this.car.pushBackwards(0.03);
         }
 
         if (this.gui.isKeyPressed("KeyA")) {
             text+=" A ";
             keysPressed=true;
+
+						this.car.pushLeft(-.003);
         }
 
         if (this.gui.isKeyPressed("KeyD")) {
             text+=" D ";
             keysPressed=true;
+
+						this.car.pushRight(-.003);
         }
 
         if (keysPressed) {
             console.log(text);
         }
+			}
     };
 
-    	update(currTime)
-    {
-    	if(!this.pause) { this.car.update(currTime); }
-    };
+    // 	update(currTime)
+    // {
+    // 	if(!this.pause) { this.car.update(currTime); }
+    // };
 };
