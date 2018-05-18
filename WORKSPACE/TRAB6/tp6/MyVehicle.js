@@ -54,35 +54,33 @@ class MyVehicle extends CGFobject
 			this.upperBody.display();
 		this.scene.popMatrix();
 
-		//BACK LEFT WHEEL
+		//FRONT LEFT WHEEL
 	   this.scene.pushMatrix();
 	   		this.scene.translate(1.4, -0.7, 0.8);
 				this.scene.rotate(this.wheelAngle,0,1,0);
 	   		this.wheel.display();
 	   	this.scene.popMatrix();
 
-		//FRONT LEFT WHEEL
+		//BACK LEFT WHEEL
 	   	this.scene.pushMatrix();
 	   		this.scene.translate(-1.4, -0.7, 0.8);
-				this.scene.rotate(this.wheelAngle,0,1,0);
 	   		this.wheel.display();
 	   	this.scene.popMatrix();
 
-		//BACK RIGHT WHEEL
+		//FRONT RIGHT WHEEL
 	   	this.scene.pushMatrix();
 	   		this.scene.translate(1.4, -0.7, -1.3);
 				this.scene.rotate(this.wheelAngle,0,1,0);
 	   		this.wheel.display();
 		this.scene.popMatrix();
 
-		//FRONT RIGHT WHEEL
+		//BACK RIGHT WHEEL
 		this.scene.pushMatrix();
 			this.scene.translate(-1.4, -0.7, -1.3);
-			this.scene.rotate(this.wheelAngle,0,1,0);
 			this.wheel.display();
 		this.scene.popMatrix();
 
-		//BACK WHEEL LEFT COVER
+		//FRONT WHEEL LEFT COVER
 		this.scene.pushMatrix();
 			this.scene.translate(1.4, -0.7, 1.3);
 			this.scene.rotate(this.wheelAngle,0,1,0);
@@ -90,15 +88,14 @@ class MyVehicle extends CGFobject
 			this.extraWheel.display();
 		this.scene.popMatrix();
 
-		//FRONT WHEEL LEFT COVER
+		//BACK WHEEL LEFT COVER
 		this.scene.pushMatrix();
 			this.scene.translate(-1.4, -0.7, 1.3);
-			this.scene.rotate(this.wheelAngle,0,1,0);
 			this.scene.scale(0.45, 0.45, 0.25);
 			this.extraWheel.display();
 		this.scene.popMatrix();
 
-		//BACK WHEEL RIGHT COVER
+		//FRONT WHEEL RIGHT COVER
 		this.scene.pushMatrix();
 			this.scene.translate(1.4, -0.7, -1.3);
 			this.scene.rotate(this.wheelAngle,0,1,0);
@@ -107,10 +104,9 @@ class MyVehicle extends CGFobject
 			this.extraWheel.display();
 		this.scene.popMatrix();
 
-		//FRONT WHEEL RIGHT COVER
+		//BACK WHEEL RIGHT COVER
 		this.scene.pushMatrix();
 			this.scene.translate(-1.4, -0.7, -1.3);
-			this.scene.rotate(this.wheelAngle,0,1,0);
 			this.scene.rotate(Math.PI, 1, 0, 0);
 			this.scene.scale(0.45, 0.45, 0.25);
 			this.extraWheel.display();
