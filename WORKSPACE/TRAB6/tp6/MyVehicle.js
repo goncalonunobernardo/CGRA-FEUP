@@ -26,6 +26,8 @@ class MyVehicle extends CGFobject
 		this.max_h_angspeed = .07;
 		this.h_rotation_ang =0;
 
+		this.wheelAngle = 0;
+
 		this.lastUpdatedTime = -1;
 
  //STRUCTURE
@@ -54,45 +56,52 @@ class MyVehicle extends CGFobject
 
 		//BACK LEFT WHEEL
 	   this.scene.pushMatrix();
-	   		this.scene.translate(1.4, -0.7, 1);
+	   		this.scene.translate(1.4, -0.7, 0.8);
+				this.scene.rotate(this.wheelAngle,0,1,0);
 	   		this.wheel.display();
 	   	this.scene.popMatrix();
 
 		//FRONT LEFT WHEEL
 	   	this.scene.pushMatrix();
-	   		this.scene.translate(-1.4, -0.7, 1);
+	   		this.scene.translate(-1.4, -0.7, 0.8);
+				this.scene.rotate(this.wheelAngle,0,1,0);
 	   		this.wheel.display();
 	   	this.scene.popMatrix();
 
 		//BACK RIGHT WHEEL
 	   	this.scene.pushMatrix();
-	   		this.scene.translate(1.4, -0.7, -1.5);
+	   		this.scene.translate(1.4, -0.7, -1.3);
+				this.scene.rotate(this.wheelAngle,0,1,0);
 	   		this.wheel.display();
 		this.scene.popMatrix();
 
 		//FRONT RIGHT WHEEL
 		this.scene.pushMatrix();
-			this.scene.translate(-1.4, -0.7, -1.5);
+			this.scene.translate(-1.4, -0.7, -1.3);
+			this.scene.rotate(this.wheelAngle,0,1,0);
 			this.wheel.display();
 		this.scene.popMatrix();
 
 		//BACK WHEEL LEFT COVER
 		this.scene.pushMatrix();
-			this.scene.translate(1.4, -0.7, 1.5);
+			this.scene.translate(1.4, -0.7, 1.3);
+			this.scene.rotate(this.wheelAngle,0,1,0);
 			this.scene.scale(0.45, 0.45, 0.25);
 			this.extraWheel.display();
 		this.scene.popMatrix();
 
 		//FRONT WHEEL LEFT COVER
 		this.scene.pushMatrix();
-			this.scene.translate(-1.4, -0.7, 1.5);
+			this.scene.translate(-1.4, -0.7, 1.3);
+			this.scene.rotate(this.wheelAngle,0,1,0);
 			this.scene.scale(0.45, 0.45, 0.25);
 			this.extraWheel.display();
 		this.scene.popMatrix();
 
 		//BACK WHEEL RIGHT COVER
 		this.scene.pushMatrix();
-			this.scene.translate(1.4, -0.7, -1.5);
+			this.scene.translate(1.4, -0.7, -1.3);
+			this.scene.rotate(this.wheelAngle,0,1,0);
 			this.scene.rotate(Math.PI, 1, 0, 0);
 			this.scene.scale(0.45, 0.45, 0.25);
 			this.extraWheel.display();
@@ -100,12 +109,12 @@ class MyVehicle extends CGFobject
 
 		//FRONT WHEEL RIGHT COVER
 		this.scene.pushMatrix();
-			this.scene.translate(-1.4, -0.7, -1.5);
+			this.scene.translate(-1.4, -0.7, -1.3);
+			this.scene.rotate(this.wheelAngle,0,1,0);
 			this.scene.rotate(Math.PI, 1, 0, 0);
 			this.scene.scale(0.45, 0.45, 0.25);
 			this.extraWheel.display();
 		this.scene.popMatrix();
-
 	this.scene.popMatrix();
 	};
 
@@ -118,12 +127,14 @@ class MyVehicle extends CGFobject
   	this.h_speed *=.99;
 		this.h_angspeed *=0.95;
 
-		if(this.scene.car.h_rotation_ang >0)
-		this.scene.car.h_rotation_ang -= 1.5;
-
-		if(this.scene.car.h_rotation_ang <0)
-		this.scene.car.h_rotation_ang += 1.5;
-
+		if(this.scene.car.h_rotation_ang >0) {
+			this.scene.car.h_rotation_ang -= 1.5;
+			this.scene.car.wheelAngle += 0.01;
+		}
+		if(this.scene.car.h_rotation_ang <0) {
+			this.scene.car.h_rotation_ang += 1.5;
+			this.scene.car.wheelAngle -= 0.01;
+		}
 		if(this.a<0)this.a+= 0.4;
 
 		if(this.a>0) this.a-= 0.4;
@@ -133,10 +144,8 @@ class MyVehicle extends CGFobject
 
 
 	moveForward(amount) {
-
 		var xval = amount * Math.cos(this.b);
 		var zval = amount * Math.sin(this.b);
-
 
 		this.x+= xval;
 		this.z-= zval;
@@ -161,6 +170,7 @@ class MyVehicle extends CGFobject
 			this.h_angspeed+=amount;
 		else if(this.h_angspeed > 0) this.h_angspeed = this.max_h_angspeed;
 		else this.h_angspeed = -this.max_h_angspeed;
+
 	};
 
 	pushRight(amount){
@@ -168,14 +178,15 @@ class MyVehicle extends CGFobject
 			this.h_angspeed-=amount;
 		else if(this.h_angspeed > 0) this.h_angspeed = this.max_h_angspeed;
 		else this.h_angspeed = -this.max_h_angspeed;
+
 	};
 
 	rotateRight(amount)
 	{
 	 	this.b -= amount;
 
- 		 if(this.scene.car.h_rotation_ang < 45 && amount >0.01) this.scene.car.h_rotation_ang += 5;
-	 	 if(this.scene.car.h_rotation_ang > -45 && amount <-0.01) this.scene.car.h_rotation_ang -= 5;
+ 		 if(this.scene.car.h_rotation_ang < 45 && amount >0.01) { this.scene.car.h_rotation_ang += 5; this.scene.car.wheelAngle = -Math.PI/6 + 0.3; }
+	 	 if(this.scene.car.h_rotation_ang > -45 && amount <-0.01){ this.scene.car.h_rotation_ang -= 5; this.scene.car.wheelAngle = Math.PI/6 - 0.3; }
 	};
 
 	get_x() {

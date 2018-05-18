@@ -7,7 +7,7 @@ class LightingScene extends CGFscene
 		super();
 	};
 
-// TODO: PAINEL; TEXTURAS; GUINDASTE; VALORIZAÇÃO NO W E S;
+// TODO: RODAS A RODAREM; COMMIT DE ENTREGA DA ACELERAÇÃO; PAINEL; TEXTURAS; GUINDASTE;
 
 	init(application)
 	{
@@ -38,7 +38,7 @@ class LightingScene extends CGFscene
     this.Light3=false;
     this.Light4=false;
 
-    this.speed=3;
+    this.speed= 1;
 		this.updatePeriod=50;
 		this.setUpdatePeriod(this.updatePeriod);
 
@@ -221,7 +221,7 @@ class LightingScene extends CGFscene
             text+=" W ";
             keysPressed=true;
 
-						this.car.pushForward(0.03);
+						this.car.pushForward(0.03*this.speed);
 
         }
 
@@ -229,21 +229,21 @@ class LightingScene extends CGFscene
             text+=" S ";
             keysPressed=true;
 
-						this.car.pushBackwards(0.03);
+						this.car.pushBackwards(0.03*this.speed);
         }
 
         if (this.gui.isKeyPressed("KeyA")) {
             text+=" A ";
             keysPressed=true;
 
-						this.car.pushLeft(-.003);
+						this.car.pushLeft(-.003*this.speed);
         }
 
         if (this.gui.isKeyPressed("KeyD")) {
             text+=" D ";
             keysPressed=true;
 
-						this.car.pushRight(-.003);
+						this.car.pushRight(-.003*this.speed);
         }
 
         if (keysPressed) {

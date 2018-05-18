@@ -6,7 +6,7 @@
 
 class MyWheel extends CGFobject
 {
-	constructor(scene) //ROTATION ARGS 
+	constructor(scene) //ROTATION ARGS
 	{
 		super(scene);
 
@@ -19,11 +19,12 @@ class MyWheel extends CGFobject
         //this.wheelAppearance.setSpecular(r, g, b, a);
         //this.wheelAppearance.setShininess(n);
         //thiis.wheelAppearance.loadTexture("../resources/images/tire.png");
-        
+
         this.initBuffers();
 	};
 
-	display(scene) 
+	
+	display(scene)
 	{
 	   //ROTATION
 	   this.scene.pushMatrix();
