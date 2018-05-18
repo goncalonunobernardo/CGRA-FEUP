@@ -185,8 +185,8 @@ class MyVehicle extends CGFobject
 	{
 	 	this.b -= amount;
 
- 		 if(this.scene.car.h_rotation_ang < 45 && amount >0.01) { this.scene.car.h_rotation_ang += 5; this.scene.car.wheelAngle = -Math.PI/6 + 0.3; }
-	 	 if(this.scene.car.h_rotation_ang > -45 && amount <-0.01){ this.scene.car.h_rotation_ang -= 5; this.scene.car.wheelAngle = Math.PI/6 - 0.3; }
+ 		 if(this.scene.car.h_rotation_ang < 45 && amount >0.01) { this.scene.car.h_rotation_ang += 5; this.scene.car.wheelAngle = -Math.PI/6 + 0.2; }
+	 	 if(this.scene.car.h_rotation_ang > -45 && amount <-0.01){ this.scene.car.h_rotation_ang -= 5; this.scene.car.wheelAngle = Math.PI/6 - 0.2; }
 	};
 
 	get_x() {
