@@ -60,6 +60,7 @@ class LightingScene extends CGFscene
 		/*** SCENE ELEMENTS ***/
 		this.car = new MyVehicle(this);
 		this.terrain = new MyTerrain(this,8,this.altimetry);
+		//this.wheel = new MyWheel(this.scene);
 		//this.sign = new Plane();  este sign é uma espécie de cartaz
 		//que eu curtia meter "preso" a um dos montes para dar contexto à cena, depois faço a imagem para meteres
 
@@ -160,6 +161,11 @@ class LightingScene extends CGFscene
 			this.rotate(-Math.PI/2, 0, 1, 0);
 			this.car.display();
 		this.popMatrix();
+
+		/*this.pushMatrix();
+			this.translate(2, 2, 2);
+			//this.wheel.display();
+		this.popMatrix();*/
 
 		//Terrain
 		this.pushMatrix();
