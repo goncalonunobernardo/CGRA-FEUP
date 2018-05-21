@@ -6,10 +6,10 @@
 
 class MyTrapezoid extends CGFobject
 {
-	constructor(scene, b, B, h, oft) 
+	constructor(scene, b, B, h, oft)
 	{
 		super(scene);
-        
+
         this.b = b;
         this.B = B;
         this.h = h
@@ -18,7 +18,7 @@ class MyTrapezoid extends CGFobject
 		this.initBuffers();
 	};
 
-	initBuffers() 
+	initBuffers()
 	{
 		this.vertices = [
 				-this.b/2, this.h/2, 0,
@@ -31,7 +31,7 @@ class MyTrapezoid extends CGFobject
 		        0, 2, 1,
 		        1, 2, 3
 				];
-			
+
 		this.primitiveType=this.scene.gl.TRIANGLES;
 
 		this.normals = [
@@ -40,14 +40,12 @@ class MyTrapezoid extends CGFobject
 				0,0,1,
 				0,0,1
 				];
-        
-        var dif = this.B - this.b;
 
         this.texCoords = [
-                dif, 0,
-                dif+this.b, 0,
-                0, this.h,
-                this.B, this.h
+                0, 1,
+                0, 0,
+                1, 1,
+                1, 0
                 ]
 
 		this.initGLBuffers();

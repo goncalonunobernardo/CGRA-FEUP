@@ -8,7 +8,6 @@ class LightingScene extends CGFscene
 	};
 
 // TODO:
-// VER O QUE SE PASSA COM AS SEMIESFERAS DA DIREITA QUE SE FODEM QUANDO METO 'D' MAS AS DA ESQUERDA NÃO? simao pls
 // PAINEL;
 // TEXTURAS;
 // GUINDASTE;
@@ -33,37 +32,53 @@ class LightingScene extends CGFscene
 		// Materials
 		this.materialDefault = new CGFappearance(this);
 
+		this.greenRustAppearance = new CGFappearance(this);
+		this.greenRustAppearance.setAmbient(0.5, 0.5, 0.5, 1);
+		this.greenRustAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
+		this.greenRustAppearance.setSpecular(1, 1, 1, 1);
+		this.greenRustAppearance.setShininess(50);
+		this.greenRustAppearance.loadTexture("../resources/images/B_greenRust.png");
+
+		this.redRustAppearance = new CGFappearance(this);
+		this.redRustAppearance.setAmbient(0.5, 0.5, 0.5, 1);
+		this.redRustAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
+		this.redRustAppearance.setSpecular(1, 1, 1, 1);
+		this.redRustAppearance.setShininess(50);
+		this.redRustAppearance.loadTexture("../resources/images/B_redRust.png");
+
 		//UPDATE TIME
-		this.stop = false;
+		this.speed= 1;
+		this.updatePeriod=100;
+		this.setUpdatePeriod(this.updatePeriod);
 
 		//LIGHT GROUP
 		this.Light1=true;
-    this.Light2=false;
-    this.Light3=false;
-    this.Light4=false;
+		this.Light2=true;
+		this.Light3=true;
+		this.Light4=true;
 
-    this.speed= 1;
-		this.updatePeriod=50;
-		this.setUpdatePeriod(this.updatePeriod);
+		//TEXTURE GROUP
+		this.vehicleAppearances = [this.greenRustAppearance, this.redRustAppearance];
+		this.vehicleAppearancesList = {'Green' : 0, 'Red' : 1};
+		this.Texture_Options = 'Green';
+		this.currVehicleAppearance = this.vehicleAppearancesList[this.Texture_Options];
 
-        this.altimetry = [[ 2.0 , 5.0 , 8.0, 2.0, 5.0, 10.0, 8.0, 2.0 ],
-                         [ 2.0 , 4.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 2.0 ],
-                         [ 2.0 , 3.0 , 7.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-                         [ 8.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-                         [ 2.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-                         [ 7.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-                         [ 6.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-                         [ 2.0 , 3.0 , 0.0, 0.0, 0.0, 0.0, 8.0, 2.0 ],
-                         [ 2.0 , 5.0 , 2.0, 4.0, 4.0, 2.0, 2.0, 9.0 ]];
-
+		this.altimetry = [[ 2.0 , 5.0 , 8.0, 2.0, 5.0, 10.0, 8.0, 2.0 ],
+											[ 2.0 , 4.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 2.0 ],
+											[ 2.0 , 3.0 , 7.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+											[ 8.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+											[ 2.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+											[ 7.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+											[ 6.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+											[ 2.0 , 3.0 , 0.0, 0.0, 0.0, 0.0, 8.0, 2.0 ],
+											[ 2.0 , 5.0 , 2.0, 4.0, 4.0, 2.0, 2.0, 9.0 ]];
 
 		/*** SCENE ELEMENTS ***/
-		this.car = new MyVehicle(this);
-		this.terrain = new MyTerrain(this,8,this.altimetry);
-		//this.wheel = new MyWheel(this.scene);
+		this.car = new MyVehicle(this,);
+		this.terrain = new MyTerrain(this, 8, this.altimetry);
+		this.crane = new MyCrane(this);
 		//this.sign = new Plane();  este sign é uma espécie de cartaz
 		//que eu curtia meter "preso" a um dos montes para dar contexto à cena, depois faço a imagem para meteres
-
 	};
 
 	initCameras()
@@ -113,16 +128,16 @@ class LightingScene extends CGFscene
 		this.lights[3].enable();
 
 		/*this.lights[0].setPosition(15, 2, 5, 1);
-        this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
-        this.lights[0].enable();
-        this.lights[0].update();*/
+		this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
+		this.lights[0].enable();
+		this.lights[0].update();*/
 
 	};
 
 	updateLights()
 	{
 		for (var i = 0; i < this.lights.length; i++)
-			this.lights[i].update();
+		this.lights[i].update();
 	}
 
 
@@ -148,8 +163,7 @@ class LightingScene extends CGFscene
 		this.axis.display();
 
 		//KEYS
-  	this.checkKeys();
-		this.materialDefault.apply();
+		this.checkKeys();
 
 		// ---- END Background, camera and axis setup
 
@@ -157,15 +171,15 @@ class LightingScene extends CGFscene
 
 		//Car
 		this.pushMatrix();
-      		this.translate(0, 1.3, 0);
+			this.translate(0, 1.3, 0);
 			this.rotate(-Math.PI/2, 0, 1, 0);
+			this.vehicleAppearances[this.currVehicleAppearance].apply();
 			this.car.display();
 		this.popMatrix();
 
-		/*this.pushMatrix();
-			this.translate(2, 2, 2);
-			//this.wheel.display();
-		this.popMatrix();*/
+		this.pushMatrix();
+			this.crane.display();
+		this.popMatrix();
 
 		//Terrain
 		this.pushMatrix();
@@ -175,95 +189,98 @@ class LightingScene extends CGFscene
 		this.popMatrix();
 	};
 
+	updateLights()
+	{
+		for (var i = 0; i < this.lights.length; i++){
+			this.lights[i].update();
+		}
 
-	    updateLights()
-    {
-        for (var i = 0; i < this.lights.length; i++){
-            this.lights[i].update();
-        }
+		if(this.Light1){
+			this.lights[0].enable();
+		} else {
+			this.lights[0].disable();
+		}
 
-            if(this.Light1){
-                this.lights[0].enable();
-            } else {
-                this.lights[0].disable();
-            }
+		if(this.Light2){
+			this.lights[1].enable();
+		} else {
+			this.lights[1].disable();
+		}
 
-            if(this.Light2){
-                this.lights[1].enable();
-            } else {
-                this.lights[1].disable();
-            }
+		if(this.Light3){
+			this.lights[2].enable();
+		} else {
+			this.lights[2].disable();
+		}
 
-            if(this.Light3){
-                this.lights[2].enable();
-            } else {
-                this.lights[2].disable();
-            }
+		if(this.Light4){
+			this.lights[3].enable();
+		} else {
+			this.lights[3].disable();
+		}
+	}
 
-            if(this.Light4){
-                this.lights[3].enable();
-            } else {
-                this.lights[3].disable();
-            }
-    }
+	activate_axis()
+	{
+		this.axis = new CGFaxis(this);
+		this.axis.display();
+		console.log("Axis DRAWN");
+	}
+	deactivate_axis()
+	{
+		this.axis = new CGFaxis(this, 0, 0);
+		console.log("Axis ERASED...");
+	};
 
-    	activate_axis()
-    {
-       this.axis = new CGFaxis(this);
-       this.axis.display();
-       console.log("Axis DRAWN");
-    }
-    	deactivate_axis()
-    {
-        this.axis = new CGFaxis(this, 0, 0);
-        console.log("Axis ERASED...");
-    };
+	checkKeys(currTime)
+	{
+		var text="Key pressed: ";
+		var keysPressed=false;
+		if(!this.pause) {
+			this.car.update(currTime);
 
+			if (this.gui.isKeyPressed("KeyW")) {
+				text+=" W ";
+				keysPressed=true;
 
-    	checkKeys(currTime)
-   	{
-        var text="Key pressed: ";
-        var keysPressed=false;
-				if(!this.pause) {
-				this.car.update(currTime);
+				this.car.pushForward(0.03*this.speed);
 
-        if (this.gui.isKeyPressed("KeyW")) {
-            text+=" W ";
-            keysPressed=true;
-
-						this.car.pushForward(0.03*this.speed);
-
-        }
-
-        if (this.gui.isKeyPressed("KeyS")) {
-            text+=" S ";
-            keysPressed=true;
-
-						this.car.pushBackwards(0.03*this.speed);
-        }
-
-        if (this.gui.isKeyPressed("KeyA")) {
-            text+=" A ";
-            keysPressed=true;
-
-						this.car.pushLeft(-.003*this.speed);
-        }
-
-        if (this.gui.isKeyPressed("KeyD")) {
-            text+=" D ";
-            keysPressed=true;
-
-						this.car.pushRight(-.003*this.speed);
-        }
-
-        if (keysPressed) {
-            console.log(text);
-        }
 			}
-    };
 
-    // 	update(currTime)
-    // {
-    // 	if(!this.pause) { this.car.update(currTime); }
-    // };
+			if (this.gui.isKeyPressed("KeyS")) {
+				text+=" S ";
+				keysPressed=true;
+
+				this.car.pushBackwards(0.03*this.speed);
+			}
+
+			if (this.gui.isKeyPressed("KeyA")) {
+				text+=" A ";
+				keysPressed=true;
+
+				this.car.pushLeft(-.003*this.speed);
+			}
+
+			if (this.gui.isKeyPressed("KeyD")) {
+				text+=" D ";
+				keysPressed=true;
+
+				this.car.pushRight(-.003*this.speed);
+			}
+
+			if (keysPressed) {
+				console.log(text);
+			}
+		}
+	};
+
+	update(currTime)
+	{
+		this.currVehicleAppearance = this.vehicleAppearancesList[this.Texture_Options];
+		
+		if(!this.crane.pos()){
+			this.crane.update(currTime, 1);
+		}
+		this.crane.update(currTime, 0);
+	};
 };
