@@ -302,7 +302,7 @@ class LightingScene extends CGFscene
 						var x = Math.cos(this.ang);
 						var z = Math.sin(this.ang);
 						this.car.inc_x(x);
-						this.car.inc_z(z);
+						this.car.inc_z(z-0.14);
 						this.ang += Math.PI/20;
 					}
 				}
