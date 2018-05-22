@@ -7,10 +7,9 @@ class LightingScene extends CGFscene
 		super();
 	};
 
-// TODO:
-// PAINEL;
-// TEXTURAS;
-// GUINDASTE;
+	// TODO:
+	// PAINEL;
+	// GUINDASTE;
 
 	init(application)
 	{
@@ -29,7 +28,7 @@ class LightingScene extends CGFscene
 		this.axis = new CGFaxis(this);
 		this.enableTextures(true);
 
-		// Materials
+		/*** MATERIALS ***/
 		this.materialDefault = new CGFappearance(this);
 
 		this.greenRustAppearance = new CGFappearance(this);
@@ -46,32 +45,40 @@ class LightingScene extends CGFscene
 		this.redRustAppearance.setShininess(50);
 		this.redRustAppearance.loadTexture("../resources/images/B_redRust.png");
 
-		//UPDATE TIME
+		/*** UPDATE TIME ***/
 		this.speed= 1;
 		this.updatePeriod=100;
+		this.count1 = 0;
+		this.count2 = 9;
 		this.setUpdatePeriod(this.updatePeriod);
 
-		//LIGHT GROUP
+		/*** LIGHT GROUP ***/
 		this.Light1=true;
 		this.Light2=true;
 		this.Light3=true;
 		this.Light4=true;
 
-		//TEXTURE GROUP
+		/*** TEXTURE GROUP ***/
 		this.vehicleAppearances = [this.greenRustAppearance, this.redRustAppearance];
 		this.vehicleAppearancesList = {'Green' : 0, 'Red' : 1};
 		this.Texture_Options = 'Green';
 		this.currVehicleAppearance = this.vehicleAppearancesList[this.Texture_Options];
 
 		this.altimetry = [[ 2.0 , 5.0 , 8.0, 2.0, 5.0, 10.0, 8.0, 2.0 ],
-											[ 2.0 , 4.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 2.0 ],
-											[ 2.0 , 3.0 , 7.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-											[ 8.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-											[ 2.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-											[ 7.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-											[ 6.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-											[ 2.0 , 3.0 , 0.0, 0.0, 0.0, 0.0, 8.0, 2.0 ],
-											[ 2.0 , 5.0 , 2.0, 4.0, 4.0, 2.0, 2.0, 9.0 ]];
+		[ 2.0 , 4.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 2.0 ],
+		[ 2.0 , 3.0 , 7.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+		[ 8.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+		[ 2.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+		[ 7.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+		[ 6.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+		[ 2.0 , 3.0 , 0.0, 0.0, 0.0, 0.0, 8.0, 2.0 ],
+		[ 2.0 , 5.0 , 2.0, 4.0, 4.0, 2.0, 2.0, 9.0 ]];
+
+
+		/*** ADJ CAR ON CRANE***/
+		this.yAdjUp = [0, 0, 0.1, 0.2, 0, 0.1, 0.4, 0.1, 0.1, 0.1];
+		this.xAdjUp = [-0.05, 0, 0, 0, 0, -0.1, 0, 0, 0, -0.05];
+		this.ang = Math.PI/20;
 
 		/*** SCENE ELEMENTS ***/
 		this.car = new MyVehicle(this,);
@@ -126,12 +133,6 @@ class LightingScene extends CGFscene
 		this.lights[3].setLinearAttenuation(0);
 		this.lights[3].setQuadraticAttenuation(0.2);
 		this.lights[3].enable();
-
-		/*this.lights[0].setPosition(15, 2, 5, 1);
-		this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
-		this.lights[0].enable();
-		this.lights[0].update();*/
-
 	};
 
 	updateLights()
@@ -177,7 +178,9 @@ class LightingScene extends CGFscene
 			this.car.display();
 		this.popMatrix();
 
+		//Crane
 		this.pushMatrix();
+			this.translate(-4.65, 0, 0);
 			this.crane.display();
 		this.popMatrix();
 
@@ -277,10 +280,39 @@ class LightingScene extends CGFscene
 	update(currTime)
 	{
 		this.currVehicleAppearance = this.vehicleAppearancesList[this.Texture_Options];
-		
-		if(!this.crane.pos()){
-			this.crane.update(currTime, 1);
+
+		//if( car pos == R){
+			if(this.crane.pos() == 'D'){
+				if( !this.crane.getRot() && !this.crane.getTrans() ) this.crane.update(currTime, 0);  //Crane esta no D ainda nao rodou para R
+				if( this.crane.getRot() ) this.crane.update(currTime, 1);  														//Crane ja rodou para D agora descer o braco
+				if( this.crane.getTrans() ) {																													//Crane ja desceu o braco agora o carro tem que 'subir'
+					this.crane.reset();
+					this.car.inc_y(0.05);
+				}
+			}
+
+			if(this.crane.pos() == 'R'){
+				if( !this.crane.getRot() && !this.crane.getTrans() ){
+					this.crane.update(currTime, 1);
+					if(this.count1 < 10){ this.car.inc_y(this.yAdjUp[this.count1]); this.car.inc_z(this.xAdjUp[this.count1++]); };
+				}
+				if( this.crane.getTrans() ){
+					this.crane.update(currTime, 0);
+					if(this.ang < Math.PI){
+						var x = Math.cos(this.ang);
+						var z = Math.sin(this.ang);
+						this.car.inc_x(x);
+						this.car.inc_z(z);
+						this.ang += Math.PI/20;
+					}
+				}
+				if( this.crane.getRot() ){
+					console.log("ROT");
+					if(this.count2 > 0) this.car.inc_y(-this.yAdjUp[this.count2--]);
+					if(this.count2 == 0) { this.car.set_y(0); /*this.count2 = 9; */}
+				}
+			}
+
 		}
-		this.crane.update(currTime, 0);
-	};
+	//}
 };
