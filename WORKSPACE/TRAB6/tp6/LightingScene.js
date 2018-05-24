@@ -9,7 +9,7 @@ class LightingScene extends CGFscene
 
 	// TODO:
 	// PAINEL;
-	// GUINDASTE;
+	
 
 	init(application)
 	{
@@ -180,7 +180,7 @@ class LightingScene extends CGFscene
 
 		//Crane
 		this.pushMatrix();
-			this.translate(-4.65, 0, 0);
+			this.translate(-4.65, 0, 5);
 			this.crane.display();
 		this.popMatrix();
 
@@ -280,8 +280,8 @@ class LightingScene extends CGFscene
 	update(currTime)
 	{
 		this.currVehicleAppearance = this.vehicleAppearancesList[this.Texture_Options];
-
-		//if( car pos == R){
+		
+		if(this.car.getPos() == 'R'){
 			if(this.crane.pos() == 'D'){
 				if( !this.crane.getRot() && !this.crane.getTrans() ) this.crane.update(currTime, 0);  //Crane esta no D ainda nao rodou para R
 				if( this.crane.getRot() ) this.crane.update(currTime, 1);  														//Crane ja rodou para D agora descer o braco
@@ -307,12 +307,10 @@ class LightingScene extends CGFscene
 					}
 				}
 				if( this.crane.getRot() ){
-					console.log("ROT");
 					if(this.count2 > 0) this.car.inc_y(-this.yAdjUp[this.count2--]);
-					if(this.count2 == 0) { this.car.set_y(0); /*this.count2 = 9; */}
+					if(this.count2 == 0) { this.car.set_y(0); /*this.count2 = 9; */ this.car.resetMov(); }
 				}
 			}
-
 		}
-	//}
+	}
 };

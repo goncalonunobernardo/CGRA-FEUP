@@ -32,6 +32,8 @@ class MyVehicle extends CGFobject
     this.wheelAngle = 0;
 
     this.lastUpdatedTime = -1;
+    
+    this.mov = false;
 
     //STRUCTURE
     this.body = new MyUnitCubeQuad(this.scene, 0, 1, 0, 1);
@@ -161,7 +163,7 @@ class MyVehicle extends CGFobject
   };
 
   get_h_angle() {
-    return this.h_angspeed;s
+    return this.h_angspeed;
   };
 
   set_x(x){
@@ -186,5 +188,22 @@ class MyVehicle extends CGFobject
 
   inc_z(z){
     this.z += z;
+  };
+  
+  resetMov(){
+    this.mov = false;
+  };
+
+  getPos(){
+    if(this.mov) return 'R';
+
+    if(this.z == 0){
+      if(this.x >= 4.5 && this.x <= 5.5){
+        this.mov = true;
+        return 'R';
+      }
+    }else{
+      return 'M';
+    }
   };
 };
