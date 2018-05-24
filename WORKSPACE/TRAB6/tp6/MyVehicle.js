@@ -198,7 +198,7 @@ class MyVehicle extends CGFobject
     if(this.mov) return 'R';
 
     if(this.z == 0){
-      if(this.x >= 4.5 && this.x <= 5.5){
+      if(this.x >= 6.5 && this.x <= 7.5){
         this.mov = true;
         return 'R';
       }

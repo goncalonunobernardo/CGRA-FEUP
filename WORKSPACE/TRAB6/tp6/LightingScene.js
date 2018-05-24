@@ -180,12 +180,13 @@ class LightingScene extends CGFscene
 
 		//Crane
 		this.pushMatrix();
-			this.translate(-4.65, 0, 5);
+			this.translate(-4.65, 0, 7);
 			this.crane.display();
 		this.popMatrix();
 
 		//Terrain
 		this.pushMatrix();
+			this.translate(0, 0, 7);
 			this.rotate(-Math.PI/2, 1, 0, 0);
 			this.scale(50, 50, 1.2);
 			this.terrain.display();
