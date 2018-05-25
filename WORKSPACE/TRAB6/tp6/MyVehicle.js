@@ -117,8 +117,8 @@ class MyVehicle extends CGFobject
     this.x+= xval;
     this.z-= zval;
 
-    this.wheelL.setAng(-this.x,amount);
-    this.wheelR.setAng(-this.x, amount);
+    this.wheelL.setAng(-this.x);
+    this.wheelR.setAng(-this.x);
   };
 
   pushForward(amount) {

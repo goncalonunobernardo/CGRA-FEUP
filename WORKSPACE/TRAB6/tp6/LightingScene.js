@@ -41,6 +41,13 @@ class LightingScene extends CGFscene
 		this.redRustAppearance.setShininess(50);
 		this.redRustAppearance.loadTexture("../resources/images/B_redRust.png");
 
+		this.signAppearance = new CGFappearance(this);
+		this.signAppearance.setAmbient(0.5, 0.5, 0.5, 1);
+		this.signAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
+		this.signAppearance.setSpecular(1, 1, 1, 1);
+		this.signAppearance.setShininess(50);
+		this.signAppearance.loadTexture("../resources/images/Pandora_Borderlands.png");
+
 		/*** UPDATE TIME ***/
 		this.speed= 1;
 		this.updatePeriod=100;
@@ -80,8 +87,7 @@ class LightingScene extends CGFscene
 		this.car = new MyVehicle(this,);
 		this.terrain = new MyTerrain(this, 8, this.altimetry);
 		this.crane = new MyCrane(this);
-		//this.sign = new Plane();  este sign é uma espécie de cartaz
-		//que eu curtia meter "preso" a um dos montes para dar contexto à cena, depois faço a imagem para meteres
+		this.sign = new MyUnitCubeQuad(this, 0, 1, 0, 1);
 	};
 
 	initCameras()
@@ -187,6 +193,17 @@ class LightingScene extends CGFscene
 			this.scale(50, 50, 1.2);
 			this.terrain.display();
 		this.popMatrix();
+
+		//POSTER
+		this.pushMatrix();
+			this.rotate(-Math.PI/2,0,1,0);
+			this.translate(-13,5.3,-16);
+			this.rotate(Math.PI/6, 2, -15, -15);
+			this.rotate(Math.PI/4, 3, -2, 15);
+			this.scale(0.02, 7, 10);
+			this.signAppearance.apply();
+			this.sign.display();
+		this.popMatrix();
 	};
 
 	updateLights()
@@ -194,6 +211,7 @@ class LightingScene extends CGFscene
 		for (var i = 0; i < this.lights.length; i++){
 			this.lights[i].update();
 		}
+
 
 		if(this.Light1){
 			this.lights[0].enable();
