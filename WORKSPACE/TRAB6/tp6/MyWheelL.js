@@ -6,7 +6,7 @@
 
 class MyWheelL extends CGFobject
 {
-	constructor(scene) //ROTATION ARGS
+	constructor(scene)
 	{
 		super(scene);
 
@@ -28,25 +28,35 @@ class MyWheelL extends CGFobject
 		this.cylinder = new MyToppedCylinder(this.scene, 40, 3, this.wheelAppearance, this.wheelAppearance);
 		this.cover = new MySemiSphere(this.scene, 40, 10);
 
+		this.ang = 0;
+
 		this.initBuffers();
 	};
 
 
+	setAng(ang){
+		this.ang = ang;
+	}
+
 	display(scene)
 	{
-		//ROTATION
 		this.scene.pushMatrix();
-			this.scene.scale(0.6, 0.6, 0.5);
-			this.cylinder.display();
-		this.scene.popMatrix();
+			this.scene.rotate(this.ang, 0, 0, 1);
 
-		//COVER
-		this.scene.pushMatrix();
-			this.scene.translate(0, 0, 0.5);
-			this.scene.scale(0.45, 0.45, 0.15);
-			this.coverAppearance.apply();
-			this.cover.display();
-		this.scene.popMatrix();
+			//WHEEL
+			this.scene.pushMatrix();
+				this.scene.scale(0.6, 0.6, 0.5);
+				this.cylinder.display();
+			this.scene.popMatrix();
 
+			//COVER
+			this.scene.pushMatrix();
+				this.scene.translate(0, 0, 0.5);
+				this.scene.scale(0.45, 0.45, 0.15);
+				this.coverAppearance.apply();
+				this.cover.display();
+			this.scene.popMatrix();
+
+		this.scene.popMatrix();
 	};
 };

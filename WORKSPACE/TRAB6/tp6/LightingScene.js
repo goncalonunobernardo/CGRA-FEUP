@@ -61,14 +61,14 @@ class LightingScene extends CGFscene
 		this.currVehicleAppearance = this.vehicleAppearancesList[this.Texture_Options];
 
 		this.altimetry = [[ 2.0 , 5.0 , 8.0, 2.0, 5.0, 10.0, 8.0, 2.0 ],
-		[ 2.0 , 4.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 2.0 ],
-		[ 2.0 , 3.0 , 7.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-		[ 8.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-		[ 2.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-		[ 7.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-		[ 6.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
-		[ 2.0 , 3.0 , 0.0, 0.0, 0.0, 0.0, 8.0, 2.0 ],
-		[ 2.0 , 5.0 , 2.0, 4.0, 4.0, 2.0, 2.0, 9.0 ]];
+											[ 2.0 , 4.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 2.0 ],
+											[ 2.0 , 3.0 , 7.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+											[ 8.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+											[ 2.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+											[ 7.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+											[ 6.0 , 0.0 , 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ],
+											[ 2.0 , 3.0 , 0.0, 0.0, 0.0, 0.0, 8.0, 2.0 ],
+											[ 2.0 , 5.0 , 2.0, 4.0, 4.0, 2.0, 2.0, 9.0 ]];
 
 
 		/*** ADJ CAR ON CRANE***/
@@ -277,37 +277,37 @@ class LightingScene extends CGFscene
 	update(currTime)
 	{
 		this.currVehicleAppearance = this.vehicleAppearancesList[this.Texture_Options];
-		
+
 		if(this.car.getPos() == 'R'){
 			if(this.crane.pos() == 'D'){
 				if( !this.crane.getRot() && !this.crane.getTrans() ) this.crane.update(currTime, 0);  //Crane esta no D ainda nao rodou para R
 				if( this.crane.getRot() ) this.crane.update(currTime, 1);  														//Crane ja rodou para D agora descer o braco
 				if( this.crane.getTrans() ) {																													//Crane ja desceu o braco agora o carro tem que 'subir'
-					this.crane.reset();
-					this.car.inc_y(0.05);
+				this.crane.reset();
+				this.car.inc_y(0.05);
+			}
+		}
+
+		if(this.crane.pos() == 'R'){
+			if( !this.crane.getRot() && !this.crane.getTrans() ){
+				this.crane.update(currTime, 1);
+				if(this.count1 < 10){ this.car.inc_y(this.yAdjUp[this.count1]); this.car.inc_z(this.xAdjUp[this.count1++]); };
+			}
+			if( this.crane.getTrans() ){
+				this.crane.update(currTime, 0);
+				if(this.ang < Math.PI){
+					var x = Math.cos(this.ang);
+					var z = Math.sin(this.ang);
+					this.car.inc_x(x);
+					this.car.inc_z(z-0.14);
+					this.ang += Math.PI/20;
 				}
 			}
-
-			if(this.crane.pos() == 'R'){
-				if( !this.crane.getRot() && !this.crane.getTrans() ){
-					this.crane.update(currTime, 1);
-					if(this.count1 < 10){ this.car.inc_y(this.yAdjUp[this.count1]); this.car.inc_z(this.xAdjUp[this.count1++]); };
-				}
-				if( this.crane.getTrans() ){
-					this.crane.update(currTime, 0);
-					if(this.ang < Math.PI){
-						var x = Math.cos(this.ang);
-						var z = Math.sin(this.ang);
-						this.car.inc_x(x);
-						this.car.inc_z(z-0.14);
-						this.ang += Math.PI/20;
-					}
-				}
-				if( this.crane.getRot() ){
-					if(this.count2 > 0) this.car.inc_y(-this.yAdjUp[this.count2--]);
-					if(this.count2 == 0) { this.car.set_y(0); /*this.count2 = 9; */ this.car.resetMov(); }
-				}
+			if( this.crane.getRot() ){
+				if(this.count2 > 0) this.car.inc_y(-this.yAdjUp[this.count2--]);
+				if(this.count2 == 0) { this.car.set_y(0); /*this.count2 = 9; */ this.car.resetMov(); }
 			}
 		}
 	}
+}
 };

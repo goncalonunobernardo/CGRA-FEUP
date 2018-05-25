@@ -25,9 +25,9 @@ class MyCraneBase extends CGFobject
 
     this.armAppearance = new CGFappearance(this.scene);
     this.armAppearance.setAmbient(0.8, 0.8, 0.8, 1);
-		this.armAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
-		this.armAppearance.setSpecular(0.5, 0.5, 0.5, 1);
-		this.armAppearance.setShininess(25);
+    this.armAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
+    this.armAppearance.setSpecular(0.5, 0.5, 0.5, 1);
+    this.armAppearance.setShininess(25);
     this.armAppearance.loadTexture("../resources/images/C_arms.png");
 
     this.axisSide = new CGFappearance(this.scene);

@@ -36,7 +36,6 @@ class MyUpperBody extends CGFobject
 
 	display(scene)
 	{
-
 		//TOP
 		this.scene.pushMatrix();
 			this.scene.translate(0, 1.75, 0);

@@ -32,7 +32,7 @@ class MyVehicle extends CGFobject
     this.wheelAngle = 0;
 
     this.lastUpdatedTime = -1;
-    
+
     this.mov = false;
 
     //STRUCTURE
@@ -45,13 +45,13 @@ class MyVehicle extends CGFobject
   display(scene)
   {
     this.scene.pushMatrix();
+
       this.scene.translate(this.x, this.y, this.z);
       this.scene.rotate(this.b, 0, 1, 0);
 
       //MAIN BODY
       this.scene.pushMatrix();
         this.scene.scale(4, 1.5, 2);
-
         this.body.display();
       this.scene.popMatrix();
 
@@ -193,7 +193,7 @@ class MyVehicle extends CGFobject
   inc_z(z){
     this.z += z;
   };
-  
+
   resetMov(){
     this.mov = false;
   };

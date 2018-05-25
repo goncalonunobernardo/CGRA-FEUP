@@ -1,8 +1,8 @@
 /**
- * MyTrapezoid
- * @param gl {WebGLRenderingContext}
- * @constructor
- */
+* MyTrapezoid
+* @param gl {WebGLRenderingContext}
+* @constructor
+*/
 
 class MyTrapezoid extends CGFobject
 {
@@ -10,10 +10,10 @@ class MyTrapezoid extends CGFobject
 	{
 		super(scene);
 
-        this.b = b;
-        this.B = B;
-        this.h = h
-        this.oft = oft;
+		this.b = b;
+		this.B = B;
+		this.h = h
+		this.oft = oft;
 
 		this.initBuffers();
 	};
@@ -21,32 +21,32 @@ class MyTrapezoid extends CGFobject
 	initBuffers()
 	{
 		this.vertices = [
-				-this.b/2, this.h/2, 0,
-				this.b/2, this.h/2, 0,
-				-this.B/2, -this.h/2, this.oft,
-				this.B/2, -this.h/2, this.oft
-				];
+			-this.b/2, this.h/2, 0,
+			this.b/2, this.h/2, 0,
+			-this.B/2, -this.h/2, this.oft,
+			this.B/2, -this.h/2, this.oft
+		];
 
 		this.indices = [
-		        0, 2, 1,
-		        1, 2, 3
-				];
+			0, 2, 1,
+			1, 2, 3
+		];
 
 		this.primitiveType=this.scene.gl.TRIANGLES;
 
 		this.normals = [
-				0,0,1,
-				0,0,1,
-				0,0,1,
-				0,0,1
-				];
+			0,0,1,
+			0,0,1,
+			0,0,1,
+			0,0,1
+		];
 
-        this.texCoords = [
-                0, 1,
-                0, 0,
-                1, 1,
-                1, 0
-                ]
+		this.texCoords = [
+			0, 1,
+			0, 0,
+			1, 1,
+			1, 0
+		]
 
 		this.initGLBuffers();
 	};

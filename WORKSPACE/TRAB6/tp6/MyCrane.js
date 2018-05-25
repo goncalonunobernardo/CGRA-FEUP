@@ -42,20 +42,15 @@ class MyCrane extends CGFobject
 	update(currTime, dir){
 		if(dir == 0 && this.currPos == 'D'){
 			this.rotateBase_DR();			//Rotates [Base + Arm] de D -> R
-		//	console.log("ROT_DR");
 		}else if(dir == 0 && this.currPos == 'R'){
 			this.rotateBase_RD();			//Rotates [Base + Arm] (+ car) de R -> D
-		//	console.log("ROT_RD");
 		}
 
 		if(dir == 1 && this.currPos == 'D'){
 			this.armDown_DR();				//Translate [Arm]
-			//console.log("TRANS_D");
 		}else if(dir == 1 && this.currPos == 'R'){
 			this.armUp_RD();					//Translate [Arm] (+ car)
-		//	console.log("TRANS_U");
 		}
-
 	};
 
 	rotateBase_DR(){
@@ -103,6 +98,4 @@ class MyCrane extends CGFobject
 		this.rot = false;
 		this.trans = false;
 	}
-
-
 };
