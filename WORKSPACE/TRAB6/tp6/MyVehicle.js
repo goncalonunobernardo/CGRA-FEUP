@@ -105,7 +105,7 @@ class MyVehicle extends CGFobject
       this.scene.car.h_rotation_ang += 1.5;
       this.scene.car.wheelAngle -= 0.01;
     }
-    if(this.a<0)this.a+= 0.4;
+    if(this.a<0 ) {this.a+= 0.4; }
 
     if(this.a>0) this.a-= 0.4;
   }
@@ -116,6 +116,9 @@ class MyVehicle extends CGFobject
 
     this.x+= xval;
     this.z-= zval;
+
+    this.wheelL.setAng(-this.x,amount);
+    this.wheelR.setAng(-this.x, amount);
   };
 
   pushForward(amount) {
@@ -133,7 +136,7 @@ class MyVehicle extends CGFobject
 
   pushLeft(amount) {
     if(this.y != 0) return;
-    if(Math.abs(this.h_speed) < 0.05) { this.h_angspeed =0; amount = 0}
+    if(Math.abs(this.h_speed) < 0.05) { this.h_angspeed = 0; amount = 0}
     if(Math.abs(this.h_angspeed + amount) <= this.max_h_angspeed)
     this.h_angspeed+=amount;
     else if(this.h_angspeed > 0) this.h_angspeed = this.max_h_angspeed;
