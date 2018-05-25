@@ -7,10 +7,6 @@ class LightingScene extends CGFscene
 		super();
 	};
 
-	// TODO:
-	// PAINEL;
-	
-
 	init(application)
 	{
 		super.init(application);

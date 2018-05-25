@@ -119,6 +119,7 @@ class MyVehicle extends CGFobject
   };
 
   pushForward(amount) {
+    if(this.y != 0) return;
     if(Math.abs(this.h_speed + amount) <= this.max_h_speed) this.h_speed += amount;
     else if (this.h_speed > 0) this.h_speed = this.max_h_speed;
     else this.h_speed = - this.max_h_speed;
@@ -126,10 +127,12 @@ class MyVehicle extends CGFobject
   };
 
   pushBackwards(amount) {
+    if(this.y != 0) return;
     this.pushForward(-amount);
   };
 
   pushLeft(amount) {
+    if(this.y != 0) return;
     if(Math.abs(this.h_speed) < 0.05) { this.h_angspeed =0; amount = 0}
     if(Math.abs(this.h_angspeed + amount) <= this.max_h_angspeed)
     this.h_angspeed+=amount;
@@ -138,6 +141,7 @@ class MyVehicle extends CGFobject
   };
 
   pushRight(amount){
+    if(this.y != 0) return;
     if(Math.abs(this.h_speed) < 0.05) { this.h_angspeed =0; amount = 0}
     if(Math.abs(this.h_angspeed - amount) <= this.max_h_angspeed)
     this.h_angspeed-=amount;
