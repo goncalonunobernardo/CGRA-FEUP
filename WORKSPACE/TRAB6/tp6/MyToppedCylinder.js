@@ -12,11 +12,16 @@ class MyToppedCylinder extends CGFobject
 
 		this.slices = slices;
 		this.stacks = stacks;
+
 		this.scene = scene;
+		
+		/**TOPPED CYLINDER TEXTURES **/
 		this.sideTexture = sideTexture;
 		this.topTexture = topTexture;
-
+		/**TOPPED CYLINDER ELEMENTS**/
+		//CYLINDER
 		this.cylinder = new MyCylinder(scene, slices, stacks);
+		//CIRCLE
 		this.circle  = new MyCircle(scene, slices);
 
 		this.initBuffers();

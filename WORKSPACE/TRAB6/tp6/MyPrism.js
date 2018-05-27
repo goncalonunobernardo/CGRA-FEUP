@@ -6,7 +6,7 @@
 
 class MyPrism extends CGFobject
 {
-	constructor(scene, slices, stacks) 
+	constructor(scene, slices, stacks)
 	{
 		super(scene);
 
@@ -16,21 +16,21 @@ class MyPrism extends CGFobject
 
 	};
 
-	initBuffers() 
+	initBuffers()
 	{
 	    //VERTICES & NORMALS
 		this.vertices = [];
 		this.normals = [];
-        
+
         var ang = 2 * Math.PI / this.slices;
         for(var i = 0; i <= this.stacks; i++){
             for(var j = 0; j < this.slices; j++){
-                //Cada vertice e adicionado 2 vezes pq tamanho do array normals 
+                //Cada vertice e adicionado 2 vezes pq tamanho do array normals
                 //tem que ser igual ao array dos vertices,e como cada vertice tem
                 //2 normais e preciso duplicar
                 this.vertices.push(Math.cos(j*ang), Math.sin(j*ang), i*1/this.stacks);
                 this.vertices.push(Math.cos((j+1)*ang), Math.sin((j+1)*ang), i*1/this.stacks);
-                
+
                 //A normal e igual em cada face varia apenas o ang de face para face
                 this.normals.push(Math.cos(ang*j + ang/2), Math.sin(ang*j + ang/2), 0);
                 this.normals.push(Math.cos(ang*j + ang/2), Math.sin(ang*j + ang/2), 0);
@@ -39,7 +39,7 @@ class MyPrism extends CGFobject
 
         //INDICES
 		this.indices = [];
-		
+
 	    var nVert = 2 * this.stacks * this.slices;
 
 	    for(var i = 0; i < nVert; i += 2){

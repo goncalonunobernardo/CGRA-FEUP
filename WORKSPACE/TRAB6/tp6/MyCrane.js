@@ -10,6 +10,8 @@ class MyCrane extends CGFobject
 	{
 		super(scene);
 
+		/** CRANE ELEMENTS **/
+		//BASE
 		this.base = new MyCraneBase(scene);
 
 		this.angArmD = [50, 40, 30,  20, 10, 9, 8, 7, 6, 5];

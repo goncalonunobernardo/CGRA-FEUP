@@ -1,4 +1,4 @@
-/**
+this.x_z_angle/**
 * MyVehicle
 * @param gl {WebGLRenderingContext}
 * @constructor
@@ -10,35 +10,45 @@ class MyVehicle extends CGFobject
   {
     super(scene);
 
-    //VEHICLE POSITION
+    /**VEHICLE POSITIONS**/
     this.x = 0;
     this.y = 0;
     this.z = 0;
 
-    //VEHICLE LOGIC
+    /**VEHICLE LOGIC**/
     //angularspeed
     this.a = 0;
-
-    //angle
-    this.b = 0;
+    //angle in x_z plane
+    this.x_z_angle = 0;
+    //horizontal speed
     this.h_speed = 0;
+    //horizontal_angularspeed
     this.h_angspeed = 0;
-
-    this.time = 0;
+    //max horizontal speed
     this.max_h_speed = .5;
+    //max horizontal angularspeed
     this.max_h_angspeed = .07;
+    //horitzontal rotational angle
     this.h_rotation_ang =0;
-
+    //wheel angle
     this.wheelAngle = 0;
 
+
+    //time
+    this.time = 0;
     this.lastUpdatedTime = -1;
 
+    //movement
     this.mov = false;
 
-    //STRUCTURE
+    /**VEHICLE ELEMENTS**/
+    //MAINBODY
     this.body = new MyUnitCubeQuad(this.scene, 0, 1, 0, 1);
+    //UPPERBODY
     this.upperBody = new MyUpperBody(this.scene);
+    //WHEEL IN LEFT
     this.wheelL = new MyWheelL(this.scene);
+    //WHEEL IN RIGHT
     this.wheelR = new MyWheelR(this.scene);
   };
 
@@ -47,12 +57,12 @@ class MyVehicle extends CGFobject
     this.scene.pushMatrix();
 
       this.scene.translate(this.x, this.y, this.z);
-      this.scene.rotate(this.b, 0, 1, 0);
+      this.scene.rotate(this.x_z_angle, 0, 1, 0);
 
       //MAIN BODY
       this.scene.pushMatrix();
         this.scene.scale(4, 1.5, 2);
-        this.body.display();
+        this.x_z_angleody.display();
       this.scene.popMatrix();
 
       //UPPER BODY
@@ -111,8 +121,8 @@ class MyVehicle extends CGFobject
   }
 
   moveForward(amount) {
-    var xval = amount * Math.cos(this.b);
-    var zval = amount * Math.sin(this.b);
+    var xval = amount * Math.cos(this.x_z_angle);
+    var zval = amount * Math.sin(this.x_z_angle);
 
     this.x+= xval;
     this.z-= zval;
@@ -154,7 +164,7 @@ class MyVehicle extends CGFobject
 
   rotateRight(amount)
   {
-    this.b -= amount;
+    this.x_z_angle -= amount;
 
     if(this.scene.car.h_rotation_ang < 45 && amount >0.01) { this.scene.car.h_rotation_ang += 5; this.scene.car.wheelAngle = -Math.PI/6 + 0.2; }
     if(this.scene.car.h_rotation_ang > -45 && amount <-0.01){ this.scene.car.h_rotation_ang -= 5; this.scene.car.wheelAngle = Math.PI/6 - 0.2; }

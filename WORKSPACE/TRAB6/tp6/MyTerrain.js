@@ -10,10 +10,11 @@ class MyTerrain extends CGFobject
 	{
 		super(scene);
 
-		this.land = new Plane(this.scene, nrDivs, altimetry, 0, 1, 0, 1);
-
+		/**TERRAIN MATERIALS **/
 		this.terrainAppearance = new CGFappearance(this.scene);
 		this.terrainAppearance.loadTexture("../resources/images/terrain.png");
+		/**TERRAIN ELEMENTS **/
+		this.land = new Plane(this.scene, nrDivs, altimetry, 0, 1, 0, 1);
 
 		this.initBuffers();
 	};

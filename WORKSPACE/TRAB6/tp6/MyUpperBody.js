@@ -10,26 +10,33 @@ class MyUpperBody extends CGFobject
 	{
 		super(scene);
 
-		this.top = new MyQuad(this.scene, 0, 1, 0, 1);
-		this.windowF = new MyTrapezoid(this.scene, 1.5, 2, 1, 0.5);
-		this.windowB = new MyTrapezoid(this.scene, 1.5, 2, 1, 0.5);
-		this.windowL = new MyTrapezoid(this.scene, 1.75, 2.75, 1, 0.25);
-		this.windowR = new MyTrapezoid(this.scene, 1.75, 2.75, 1, 0.25);
-
-		//MATERIAL AND TEXTURE
+		//**UPPERBODY MATERIALS **/
+		//TOP
 		this.topAppearance = new CGFappearance(this.scene);
 		this.topAppearance.setAmbient(0.5, 0.5, 0.5, 1);
 		this.topAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
 		this.topAppearance.setSpecular(1, 1, 1, 1);
 		this.topAppearance.setShininess(25);
 		this.topAppearance.loadTexture("../resources/images/UB_top.png");
-
+		//WINDOWS
 		this.windowAppearance = new CGFappearance(this.scene);
 		this.windowAppearance.setAmbient(0.5, 0.5, 0.5, 1);
 		this.windowAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
 		this.windowAppearance.setSpecular(1, 1, 1, 1);
 		this.windowAppearance.setShininess(75);
 		this.windowAppearance.loadTexture("../resources/images/UB_window.png");
+
+		/**UPPERBODY ELEMENTS **/
+		//TOP
+		this.top = new MyQuad(this.scene, 0, 1, 0, 1);
+		//WINDOWFRONT
+		this.windowF = new MyTrapezoid(this.scene, 1.5, 2, 1, 0.5);
+		//WINDOWBACK
+		this.windowB = new MyTrapezoid(this.scene, 1.5, 2, 1, 0.5);
+		//WINDOWLEFT
+		this.windowL = new MyTrapezoid(this.scene, 1.75, 2.75, 1, 0.25);
+		//WINDOWRIGHT
+		this.windowR = new MyTrapezoid(this.scene, 1.75, 2.75, 1, 0.25);
 
 		this.initBuffers();
 	};

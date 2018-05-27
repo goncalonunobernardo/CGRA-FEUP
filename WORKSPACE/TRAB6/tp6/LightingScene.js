@@ -26,33 +26,34 @@ class LightingScene extends CGFscene
 
 		/*** MATERIALS ***/
 		this.materialDefault = new CGFappearance(this);
-
+		//GREEN RUST
 		this.greenRustAppearance = new CGFappearance(this);
 		this.greenRustAppearance.setAmbient(0.5, 0.5, 0.5, 1);
 		this.greenRustAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
 		this.greenRustAppearance.setSpecular(1, 1, 1, 1);
 		this.greenRustAppearance.setShininess(50);
 		this.greenRustAppearance.loadTexture("../resources/images/B_greenRust.png");
-
+		//RED RUST
 		this.redRustAppearance = new CGFappearance(this);
 		this.redRustAppearance.setAmbient(0.5, 0.5, 0.5, 1);
 		this.redRustAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
 		this.redRustAppearance.setSpecular(1, 1, 1, 1);
 		this.redRustAppearance.setShininess(50);
 		this.redRustAppearance.loadTexture("../resources/images/B_redRust.png");
-
+		//BORDERLANDS_BASED SIGN
 		this.signAppearance = new CGFappearance(this);
 		this.signAppearance.setAmbient(0.5, 0.5, 0.5, 1);
 		this.signAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
 		this.signAppearance.setSpecular(1, 1, 1, 1);
 		this.signAppearance.setShininess(50);
 		this.signAppearance.loadTexture("../resources/images/Pandora_Borderlands.png");
-
+		//DARK SAND FOR UNITCUBEQUAD BELOW TERRAIN
 		this.below_terrainAppearance = new CGFappearance(this);
 		this.below_terrainAppearance.setAmbient(0.5, 0.5, 0.5, 1);
 		this.below_terrainAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
 		this.below_terrainAppearance.setSpecular(1, 1, 1, 1);
 		this.signAppearance.setShininess(50);
+
 		/*** UPDATE TIME ***/
 		this.speed= 1;
 		this.updatePeriod=100;
@@ -89,13 +90,21 @@ class LightingScene extends CGFscene
 		this.ang = Math.PI/20;
 
 		/*** SCENE ELEMENTS ***/
+		//USER_VEHICLE
 		this.car = new MyVehicle(this,);
+		//DESTROYED CARS THROUGH SCENE
 		this.destroyed_cars = new MyVehicle(this);
+		//DESTROYED WHEELS THROUGH SCENE
 		this.destroyed_wheels = new MyWheelL(this);
+		//DESTROYED UPPERBODIES THROUGH SCENE
 		this.destroyed_upperbody = new MyUpperBody(this);
+		//TERRAIN
 		this.terrain = new MyTerrain(this, 8, this.altimetry);
+		//CRANE
 		this.crane = new MyCrane(this);
+		//SIGN BETWEEN MOUNTAINS
 		this.sign = new MyUnitCubeQuad(this, 0, 1, 0, 1);
+		//VOLUME BELOW TERRAIN
 		this.below_terrain = new MyUnitCubeQuad(this, 0, 1, 0, 1);
 	};
 
@@ -318,9 +327,9 @@ class LightingScene extends CGFscene
 		var text="Key pressed: ";
 		var keysPressed=false;
 		if(!this.pause) {
-			this.car.update(currTime);
+		this.car.update(currTime);							//update function on car
 
-			if (this.gui.isKeyPressed("KeyW")) {
+			if (this.gui.isKeyPressed("KeyW")) { 										/** - - - - - --  - **/
 				text+=" W ";
 				keysPressed=true;
 
@@ -332,7 +341,7 @@ class LightingScene extends CGFscene
 				text+=" S ";
 				keysPressed=true;
 
-				this.car.pushBackwards(0.03*this.speed);
+				this.car.pushBackwards(0.03*this.speed);							/** KEYPRESS EVENTS	**/
 			}
 
 			if (this.gui.isKeyPressed("KeyA")) {
@@ -346,7 +355,7 @@ class LightingScene extends CGFscene
 				text+=" D ";
 				keysPressed=true;
 
-				this.car.pushRight(-.003*this.speed);
+				this.car.pushRight(-.003*this.speed);									/** - - - - - --  - **/
 			}
 
 			if (keysPressed) {
@@ -361,9 +370,9 @@ class LightingScene extends CGFscene
 
 		if(this.car.getPos() == 'R'){
 			if(this.crane.pos() == 'D'){
-				if( !this.crane.getRot() && !this.crane.getTrans() ) this.crane.update(currTime, 0);  //Crane esta no D ainda nao rodou para R
-				if( this.crane.getRot() ) this.crane.update(currTime, 1);  														//Crane ja rodou para D agora descer o braco
-				if( this.crane.getTrans() ) {																													//Crane ja desceu o braco agora o carro tem que 'subir'
+				if( !this.crane.getRot() && !this.crane.getTrans() ) this.crane.update(currTime, 0);  //Crane is in D hasn't rotated to R
+				if( this.crane.getRot() ) this.crane.update(currTime, 1);  														//Crane rotated to R so it lowers its arm
+				if( this.crane.getTrans() ) {																													//Crane lowered arm, car goes up
 				this.crane.reset();
 				this.car.inc_y(0.05);
 			}
