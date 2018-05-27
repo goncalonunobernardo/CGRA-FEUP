@@ -91,8 +91,6 @@ class LightingScene extends CGFscene
 		/*** SCENE ELEMENTS ***/
 		this.car = new MyVehicle(this,);
 		this.destroyed_cars = new MyVehicle(this);
-		this.destroyed_wheels = new MyWheelL(this);
-		this.destroyed_upperbody = new MyUpperBody(this);
 		this.terrain = new MyTerrain(this, 8, this.altimetry);
 		this.crane = new MyCrane(this);
 		this.sign = new MyUnitCubeQuad(this, 0, 1, 0, 1);
@@ -224,50 +222,9 @@ class LightingScene extends CGFscene
 		//BELOW_PLANE
 		this.pushMatrix();
 			this.rotate(Math.PI/2, 1,0,0);
-			this.translate(0,3.5,2.6);
+			this.translate(0,3.6,2.6);
 			this.scale(50,44,5);
 			this.below_terrain.display();
-		this.popMatrix();
-
-		//DESTROYED_CARS1
-		this.pushMatrix();
-			this.translate(20, 1.3, 10);
-			this.rotate(Math.PI/3,1,0,0);
-			this.redRustAppearance.apply();
-			this.destroyed_cars.display();
-		this.popMatrix();
-		//DESTROYED_CARS2
-		this.pushMatrix();
-			this.translate(21, 1.3, 7);
-			this.rotate(Math.PI/3,-1,0,0);
-			this.greenRustAppearance.apply();
-			this.destroyed_cars.display();
-		this.popMatrix();
-		//DESTROYED_CARS3
-		this.pushMatrix();
-			this.translate(20, 1.3, 13);
-			this.rotate(Math.PI/3,1,1,0);
-			this.greenRustAppearance.apply();
-			this.destroyed_cars.display();
-		this.popMatrix();
-		//DESTROYED_WHEEL1
-		this.pushMatrix();
-			this.translate(10, 1.3, 13);
-			this.rotate(Math.PI/3,1,1,0);
-			this.scale(1,2,1);
-			this.destroyed_wheels.display();
-		this.popMatrix();
-		//DESTROYED_WHEEL2
-		this.pushMatrix();
-			this.translate(22, 1.3, 17);
-			this.rotate(Math.PI/3,1,1,0);
-			this.destroyed_wheels.display();
-		this.popMatrix();
-		//DESTROYED_UPPERBODY
-		this.pushMatrix();
-			this.translate(20, 1.3, 8);
-			this.rotate(Math.PI/3,1,1,0);
-			this.destroyed_upperbody.display();
 		this.popMatrix();
 	};
 
