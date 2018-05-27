@@ -214,13 +214,6 @@ class LightingScene extends CGFscene
 			this.sign.display();
 		this.popMatrix();
 
-		//DESTROYED_CARS
-		this.pushMatrix();
-			this.translate(0, 1.3, 0);
-			this.redRustAppearance.apply();
-			this.destroyed_cars.display();
-		this.popMatrix();
-
 		//BELOW_PLANE
 		this.pushMatrix();
 			this.rotate(Math.PI/2, 1,0,0);
@@ -252,21 +245,26 @@ class LightingScene extends CGFscene
 		this.popMatrix();
 		//DESTROYED_WHEEL1
 		this.pushMatrix();
-			this.translate(10, 1.3, 13);
-			this.rotate(Math.PI/3,1,1,0);
+			this.translate(19, 0.3, 3);
+			this.rotate(Math.PI/3,1,0,0);
 			this.scale(1,2,1);
 			this.destroyed_wheels.display();
 		this.popMatrix();
 		//DESTROYED_WHEEL2
 		this.pushMatrix();
-			this.translate(22, 1.3, 17);
-			this.rotate(Math.PI/3,1,1,0);
+			this.translate(14, 1.3, 17);
+			this.rotate(Math.PI/3,1,0,0);
 			this.destroyed_wheels.display();
 		this.popMatrix();
-		//DESTROYED_UPPERBODY
+		//DESTROYED_UPPERBODY1
 		this.pushMatrix();
-			this.translate(20, 1.3, 8);
+			this.translate(20, 1, 8);
 			this.rotate(Math.PI/3,1,1,0);
+			this.destroyed_upperbody.display();
+		this.popMatrix();
+		//DESTROYED_UPPERBODY2
+		this.pushMatrix();
+			this.translate(17,-1.3, 8);
 			this.destroyed_upperbody.display();
 		this.popMatrix();
 	};
