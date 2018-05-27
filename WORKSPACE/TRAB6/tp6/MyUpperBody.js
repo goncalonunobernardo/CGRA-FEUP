@@ -10,7 +10,7 @@ class MyUpperBody extends CGFobject
 	{
 		super(scene);
 
-		//**UPPERBODY MATERIALS **/
+		/**UPPERBODY MATERIALS **/
 		//TOP
 		this.topAppearance = new CGFappearance(this.scene);
 		this.topAppearance.setAmbient(0.5, 0.5, 0.5, 1);
@@ -18,6 +18,7 @@ class MyUpperBody extends CGFobject
 		this.topAppearance.setSpecular(1, 1, 1, 1);
 		this.topAppearance.setShininess(25);
 		this.topAppearance.loadTexture("../resources/images/UB_top.png");
+
 		//WINDOWS
 		this.windowAppearance = new CGFappearance(this.scene);
 		this.windowAppearance.setAmbient(0.5, 0.5, 0.5, 1);
@@ -26,16 +27,16 @@ class MyUpperBody extends CGFobject
 		this.windowAppearance.setShininess(75);
 		this.windowAppearance.loadTexture("../resources/images/UB_window.png");
 
-		/**UPPERBODY ELEMENTS **/
+		/**UPPERBODY ELEMENTS**/
 		//TOP
 		this.top = new MyQuad(this.scene, 0, 1, 0, 1);
-		//WINDOWFRONT
+		//WINDOW FRONT
 		this.windowF = new MyTrapezoid(this.scene, 1.5, 2, 1, 0.5);
-		//WINDOWBACK
+		//WINDOW BACK
 		this.windowB = new MyTrapezoid(this.scene, 1.5, 2, 1, 0.5);
-		//WINDOWLEFT
+		//WINDOW LEFT
 		this.windowL = new MyTrapezoid(this.scene, 1.75, 2.75, 1, 0.25);
-		//WINDOWRIGHT
+		//WINDOW RIGHT
 		this.windowR = new MyTrapezoid(this.scene, 1.75, 2.75, 1, 0.25);
 
 		this.initBuffers();

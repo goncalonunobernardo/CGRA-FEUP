@@ -10,41 +10,40 @@ class MyVehicle extends CGFobject
   {
     super(scene);
 
-    /**VEHICLE POSITIONS**/
+    /** VEHICLE POSITION **/
     this.x = 0;
     this.y = 0;
     this.z = 0;
 
-    /**VEHICLE LOGIC**/
+    /** VEHICLE LOGIC **/
     //angularspeed
     this.a = 0;
     //angle in x_z plane
-    this.x_z_angle = 0;
+    this.x_z_angle = 0
     //horizontal speed
     this.h_speed = 0;
-    //horizontal_angularspeed
+    //horizontal angularspeed
     this.h_angspeed = 0;
     //max horizontal speed
     this.max_h_speed = .5;
     //max horizontal angularspeed
     this.max_h_angspeed = .07;
-    //horitzontal rotational angle
+    //horizontal rotation angle
     this.h_rotation_ang =0;
     //wheel angle
     this.wheelAngle = 0;
 
-
-    //time
+    /** TIME **/
     this.time = 0;
     this.lastUpdatedTime = -1;
 
     //movement
     this.mov = false;
 
-    /**VEHICLE ELEMENTS**/
-    //MAINBODY
+    /** VEHICLE ELEMENTS **/
+    //MAIN BODY
     this.body = new MyUnitCubeQuad(this.scene, 0, 1, 0, 1);
-    //UPPERBODY
+    //UPPER BODY
     this.upperBody = new MyUpperBody(this.scene);
     //WHEEL IN LEFT
     this.wheelL = new MyWheelL(this.scene);
@@ -62,7 +61,7 @@ class MyVehicle extends CGFobject
       //MAIN BODY
       this.scene.pushMatrix();
         this.scene.scale(4, 1.5, 2);
-        this.x_z_angleody.display();
+        this.body.display();
       this.scene.popMatrix();
 
       //UPPER BODY
@@ -115,7 +114,7 @@ class MyVehicle extends CGFobject
       this.scene.car.h_rotation_ang += 1.5;
       this.scene.car.wheelAngle -= 0.01;
     }
-    if(this.a<0 ) {this.a+= 0.4; }
+    if(this.a<0){ this.a+= 0.4; }
 
     if(this.a>0) this.a-= 0.4;
   }
@@ -162,8 +161,7 @@ class MyVehicle extends CGFobject
     else this.h_angspeed = -this.max_h_angspeed;
   };
 
-  rotateRight(amount)
-  {
+  rotateRight(amount){
     this.x_z_angle -= amount;
 
     if(this.scene.car.h_rotation_ang < 45 && amount >0.01) { this.scene.car.h_rotation_ang += 5; this.scene.car.wheelAngle = -Math.PI/6 + 0.2; }
@@ -173,6 +171,10 @@ class MyVehicle extends CGFobject
 
   get_x() {
     return this.x;
+  };
+
+  get_y(){
+    return this.y;
   };
 
   get_z() {
@@ -215,7 +217,7 @@ class MyVehicle extends CGFobject
     if(this.mov) return 'R';
 
     if(this.z == 0){
-      if(this.x >= 6.5 && this.x <= 7.5){
+      if(this.x == 0){
         this.mov = true;
         return 'R';
       }

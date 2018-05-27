@@ -6,11 +6,11 @@
 
 class MyWheelR extends CGFobject
 {
-	constructor(scene) //ROTATION ARGS
+	constructor(scene)
 	{
 		super(scene);
 
-		/**WHEEL-RIGHT MATERIALS**/
+		/** WHEEL-RIGHT MATERIALS **/
 		//CYLINDER WHEEL
 		this.wheelAppearance = new CGFappearance(this.scene);
 		this.wheelAppearance.setAmbient(0.15, 0.15, 0.15, 1);
@@ -18,6 +18,7 @@ class MyWheelR extends CGFobject
 		this.wheelAppearance.setSpecular(0.25, 0.25, 0.25, 1);
 		this.wheelAppearance.setShininess(50);
 		this.wheelAppearance.loadTexture("../resources/images/W_wheel.png");
+
 		//COVER
 		this.coverAppearance = new CGFappearance(this.scene);
 		this.coverAppearance.setAmbient(0.8, 0.8, 0.8, 1);
@@ -26,13 +27,13 @@ class MyWheelR extends CGFobject
 		this.coverAppearance.setShininess(25);
 		this.coverAppearance.loadTexture("../resources/images/W_cover.png");
 
-		/**WHEEL-RIGHT ELEMENTS**/
+		/** WHEEL-RIGHT ELEMENTS **/
 		//CYLINDER
 		this.cylinder = new MyToppedCylinder(this.scene, 40, 3, this.wheelAppearance, this.wheelAppearance);
 		//COVER
 		this.cover = new MySemiSphere(this.scene, 40, 10);
 
-		/**WHEEL-RIGHT LOGIC**/
+		/** WHEEL-RIGHT LOGIC **/
 		this.ang = 0;
 
 		this.initBuffers();
@@ -60,7 +61,6 @@ class MyWheelR extends CGFobject
 				this.coverAppearance.apply();
 				this.cover.display();
 				this.scene.popMatrix();
-
 		this.scene.popMatrix();
 	};
 };

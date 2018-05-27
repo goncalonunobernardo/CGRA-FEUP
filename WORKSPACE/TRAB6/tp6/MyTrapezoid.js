@@ -9,11 +9,12 @@ class MyTrapezoid extends CGFobject
 	constructor(scene, b, B, h, oft)
 	{
 		super(scene);
+
 		/**TRAPEZOID POSITIONS AND VARIABLES **/
-		this.b = b; 			//small base
-		this.B = B;				//big 	base
-		this.h = h				//height
-		this.oft = oft;
+		this.b = b;					//SMALL BASE
+		this.B = B;					//BIG BASE
+		this.h = h					//HEIGHT
+		this.oft = oft;			//OFFSET FROM AXIS
 
 		this.initBuffers();
 	};

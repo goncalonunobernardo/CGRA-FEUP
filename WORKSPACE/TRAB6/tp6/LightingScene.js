@@ -25,7 +25,6 @@ class LightingScene extends CGFscene
 		this.enableTextures(true);
 
 		/*** MATERIALS ***/
-		this.materialDefault = new CGFappearance(this);
 		//GREEN RUST
 		this.greenRustAppearance = new CGFappearance(this);
 		this.greenRustAppearance.setAmbient(0.5, 0.5, 0.5, 1);
@@ -33,6 +32,7 @@ class LightingScene extends CGFscene
 		this.greenRustAppearance.setSpecular(1, 1, 1, 1);
 		this.greenRustAppearance.setShininess(50);
 		this.greenRustAppearance.loadTexture("../resources/images/B_greenRust.png");
+
 		//RED RUST
 		this.redRustAppearance = new CGFappearance(this);
 		this.redRustAppearance.setAmbient(0.5, 0.5, 0.5, 1);
@@ -40,6 +40,7 @@ class LightingScene extends CGFscene
 		this.redRustAppearance.setSpecular(1, 1, 1, 1);
 		this.redRustAppearance.setShininess(50);
 		this.redRustAppearance.loadTexture("../resources/images/B_redRust.png");
+
 		//BORDERLANDS_BASED SIGN
 		this.signAppearance = new CGFappearance(this);
 		this.signAppearance.setAmbient(0.5, 0.5, 0.5, 1);
@@ -47,18 +48,37 @@ class LightingScene extends CGFscene
 		this.signAppearance.setSpecular(1, 1, 1, 1);
 		this.signAppearance.setShininess(50);
 		this.signAppearance.loadTexture("../resources/images/Pandora_Borderlands.png");
+
 		//DARK SAND FOR UNITCUBEQUAD BELOW TERRAIN
 		this.below_terrainAppearance = new CGFappearance(this);
-		this.below_terrainAppearance.setAmbient(0.5, 0.5, 0.5, 1);
+		this.below_terrainAppearance.setAmbient(0.3, 0.3, 0.3, 1);
 		this.below_terrainAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
-		this.below_terrainAppearance.setSpecular(1, 1, 1, 1);
-		this.signAppearance.setShininess(50);
+		this.below_terrainAppearance.setSpecular(0.5, 0.5, 0.5, 1);
+		this.below_terrainAppearance.setShininess(50);
+		this.below_terrainAppearance.loadTexture("../resources/images/W_cover.png");
+
+		this.carDummyAppearance = new CGFappearance(this);
+
+		/** CRANE MOVEMENT LOGIC **/
+		this.enableDummy = false;
+		this.xDummy = 0;
+		this.xCrane = 7.3*Math.cos(3*Math.PI/8) + 0.35*Math.cos(Math.PI/8) +
+									Math.sqrt(0.25*0.25 + 2.3*2.3) * Math.sin(Math.atan(2.3/0.25) - Math.PI/5);
+		this.yCarMax = 7.3*Math.sin(3*Math.PI/8) - 0.35*Math.sin(Math.PI/8) -
+									 Math.sqrt(0.25*0.25 + 2.3*2.3) * Math.cos(Math.atan(2.3/0.25) - Math.PI/5) -1.7 -2.75;
+		this.yAdj = [];
+		this.count1 = 0;
+		this.carLastZ = 0;
+		this.radius = 7.3*Math.cos(3*Math.PI/8) + 0.35*Math.cos(Math.PI/8) +
+									Math.sqrt(0.25*0.25 + 2.3*2.3) * Math.sin(Math.atan(2.3/0.25) - Math.PI/40);
+		this.ang = 0;
+		this.r1 = 7.3*Math.cos(3*Math.PI/8) + 0.35*Math.cos(Math.PI/8);
+		this.r2 =	Math.sqrt(0.25*0.25 + 2.3*2.3) * Math.sin(Math.atan(2.3/0.25) - Math.PI/40);
+		this.count2 = 0;
 
 		/*** UPDATE TIME ***/
 		this.speed= 1;
 		this.updatePeriod=100;
-		this.count1 = 0;
-		this.count2 = 9;
 		this.setUpdatePeriod(this.updatePeriod);
 
 		/*** LIGHT GROUP ***/
@@ -83,12 +103,6 @@ class LightingScene extends CGFscene
 											[ 2.0 , 3.0 , 0.0, 0.0, 0.0, 0.0, 8.0, 2.0 ],
 											[ 2.0 , 5.0 , 2.0, 4.0, 4.0, 2.0, 2.0, 9.0 ]];
 
-
-		/*** ADJ CAR ON CRANE***/
-		this.yAdjUp = [0, 0, 0.1, 0.2, 0, 0.1, 0.4, 0.1, 0.1, 0.1];
-		this.xAdjUp = [-0.05, 0, 0, 0, 0, -0.1, 0, 0, 0, -0.05];
-		this.ang = Math.PI/20;
-
 		/*** SCENE ELEMENTS ***/
 		//USER_VEHICLE
 		this.car = new MyVehicle(this,);
@@ -98,6 +112,8 @@ class LightingScene extends CGFscene
 		this.destroyed_wheels = new MyWheelL(this);
 		//DESTROYED UPPERBODIES THROUGH SCENE
 		this.destroyed_upperbody = new MyUpperBody(this);
+		//DUMMY CAR USED IN D POSITION OF CRANE
+		this.carDummy = new MyVehicle(this);
 		//TERRAIN
 		this.terrain = new MyTerrain(this, 8, this.altimetry);
 		//CRANE
@@ -161,7 +177,6 @@ class LightingScene extends CGFscene
 		this.lights[i].update();
 	}
 
-
 	display()
 	{
 		// ---- BEGIN Background, camera and axis setup
@@ -190,7 +205,7 @@ class LightingScene extends CGFscene
 
 		// ---- BEGIN Scene drawing section
 
-		//Car
+		//CAR
 		this.pushMatrix();
 			this.translate(0, 1.3, 0);
 			this.rotate(-Math.PI/2, 0, 1, 0);
@@ -198,15 +213,25 @@ class LightingScene extends CGFscene
 			this.car.display();
 		this.popMatrix();
 
-		//Crane
+		//CAR DUMMY
 		this.pushMatrix();
-			this.translate(-4.65, 0, 7);
+			this.translate(-this.xDummy, 1.3, 0);
+			this.rotate(-Math.PI/2, 0, 1, 0);
+			if(this.enableDummy){
+				this.carDummyAppearance.apply();
+				this.carDummy.display();
+			}
+		this.popMatrix();
+
+		//CRANE
+		this.pushMatrix();
+			this.translate(-this.xCrane, 0, 0);
 			this.crane.display();
 		this.popMatrix();
 
-		//Terrain
+		//TERRAIN
 		this.pushMatrix();
-			this.translate(0, 0, 7);
+			this.translate(-2, 0, 7);
 			this.rotate(-Math.PI/2, 1, 0, 0);
 			this.scale(50, 50, 1.2);
 			this.terrain.display();
@@ -214,8 +239,8 @@ class LightingScene extends CGFscene
 
 		//POSTER
 		this.pushMatrix();
-			this.rotate(-Math.PI/2,0,1,0);
-			this.translate(-13,5.3,-16);
+			this.rotate(-Math.PI/2, 0, 1, 0);
+			this.translate(-11, 5.3, -16);
 			this.rotate(Math.PI/6, 2, -15, -15);
 			this.rotate(Math.PI/4, 3, -2, 15);
 			this.scale(0.02, 7, 10);
@@ -223,57 +248,64 @@ class LightingScene extends CGFscene
 			this.sign.display();
 		this.popMatrix();
 
-		//BELOW_PLANE
+		//BELLOW_PLANE
 		this.pushMatrix();
-			this.rotate(Math.PI/2, 1,0,0);
-			this.translate(0,3.5,2.6);
-			this.scale(50,44,5);
+			this.rotate(Math.PI/2, 1, 0, 0);
+			this.translate(-2, 3.5, 2.6);
+			this.scale(50, 44, 5);
+			this.below_terrainAppearance.apply();
 			this.below_terrain.display();
 		this.popMatrix();
 
 		//DESTROYED_CARS1
 		this.pushMatrix();
-			this.translate(20, 1.3, 10);
-			this.rotate(Math.PI/3,1,0,0);
+			this.translate(18, 1.3, 10);
+			this.rotate(Math.PI/3, 1, 0, 0);
 			this.redRustAppearance.apply();
 			this.destroyed_cars.display();
 		this.popMatrix();
+
 		//DESTROYED_CARS2
 		this.pushMatrix();
-			this.translate(21, 1.3, 7);
-			this.rotate(Math.PI/3,-1,0,0);
+			this.translate(19, 1.3, 7);
+			this.rotate(Math.PI/3, -1, 0, 0);
 			this.greenRustAppearance.apply();
 			this.destroyed_cars.display();
 		this.popMatrix();
+
 		//DESTROYED_CARS3
 		this.pushMatrix();
-			this.translate(20, 1.3, 13);
-			this.rotate(Math.PI/3,1,1,0);
+			this.translate(18, 1.3, 13);
+			this.rotate(Math.PI/3, 1, 1, 0);
 			this.greenRustAppearance.apply();
 			this.destroyed_cars.display();
 		this.popMatrix();
+
 		//DESTROYED_WHEEL1
 		this.pushMatrix();
-			this.translate(19, 0.3, 3);
-			this.rotate(Math.PI/3,1,0,0);
-			this.scale(1,2,1);
+			this.translate(17, 0.3, 3);
+			this.rotate(Math.PI/3, 1, 0, 0);
+			this.scale(1, 2, 1);
 			this.destroyed_wheels.display();
 		this.popMatrix();
+
 		//DESTROYED_WHEEL2
 		this.pushMatrix();
-			this.translate(14, 1.3, 17);
-			this.rotate(Math.PI/3,1,0,0);
+			this.translate(12, 1.3, 17);
+			this.rotate(Math.PI/3, 1, 0, 0);
 			this.destroyed_wheels.display();
 		this.popMatrix();
+
 		//DESTROYED_UPPERBODY1
 		this.pushMatrix();
-			this.translate(20, 1, 8);
-			this.rotate(Math.PI/3,1,1,0);
+			this.translate(18, 1, 8);
+			this.rotate(Math.PI/3, 1, 1, 0);
 			this.destroyed_upperbody.display();
 		this.popMatrix();
+
 		//DESTROYED_UPPERBODY2
 		this.pushMatrix();
-			this.translate(17,-1.3, 8);
+			this.translate(15, -1.3, 8);
 			this.destroyed_upperbody.display();
 		this.popMatrix();
 	};
@@ -283,7 +315,6 @@ class LightingScene extends CGFscene
 		for (var i = 0; i < this.lights.length; i++){
 			this.lights[i].update();
 		}
-
 
 		if(this.Light1){
 			this.lights[0].enable();
@@ -316,6 +347,7 @@ class LightingScene extends CGFscene
 		this.axis.display();
 		console.log("Axis DRAWN");
 	}
+
 	deactivate_axis()
 	{
 		this.axis = new CGFaxis(this, 0, 0);
@@ -327,21 +359,20 @@ class LightingScene extends CGFscene
 		var text="Key pressed: ";
 		var keysPressed=false;
 		if(!this.pause) {
-		this.car.update(currTime);							//update function on car
+		this.car.update(currTime);													//update function on car
 
-			if (this.gui.isKeyPressed("KeyW")) { 										/** - - - - - --  - **/
+			if (this.gui.isKeyPressed("KeyW")) {							/** - - - - - --  - **/
 				text+=" W ";
 				keysPressed=true;
 
 				this.car.pushForward(0.03*this.speed);
-
 			}
 
 			if (this.gui.isKeyPressed("KeyS")) {
 				text+=" S ";
 				keysPressed=true;
 
-				this.car.pushBackwards(0.03*this.speed);							/** KEYPRESS EVENTS	**/
+				this.car.pushBackwards(0.03*this.speed);				/** KEYPRESS EVENTS	**/
 			}
 
 			if (this.gui.isKeyPressed("KeyA")) {
@@ -355,7 +386,7 @@ class LightingScene extends CGFscene
 				text+=" D ";
 				keysPressed=true;
 
-				this.car.pushRight(-.003*this.speed);									/** - - - - - --  - **/
+				this.car.pushRight(-.003*this.speed);						/** - - - - - --  - **/
 			}
 
 			if (keysPressed) {
@@ -366,38 +397,84 @@ class LightingScene extends CGFscene
 
 	update(currTime)
 	{
+		//update car active texture
 		this.currVehicleAppearance = this.vehicleAppearancesList[this.Texture_Options];
 
-		if(this.car.getPos() == 'R'){
-			if(this.crane.pos() == 'D'){
-				if( !this.crane.getRot() && !this.crane.getTrans() ) this.crane.update(currTime, 0);  //Crane is in D hasn't rotated to R
-				if( this.crane.getRot() ) this.crane.update(currTime, 1);  														//Crane rotated to R so it lowers its arm
-				if( this.crane.getTrans() ) {																													//Crane lowered arm, car goes up
-				this.crane.reset();
-				this.car.inc_y(0.05);
+		// -Crane Pos D
+		// -Car Pos   R						CRANE HAS TO ROTATE FROM D -> R
+		// -Arm Pos   I
+		if(this.crane.getPos() == 'D' && this.car.getPos() == 'R' && this.crane.getArmPos() == 'I'){
+			this.crane.update(currTime, 0);
+		}
+
+		// -Crane Pos R
+		// -Car Pos   R						CRANE ARM HAS TO LOWER I -> F
+		// -Arm Pos   I
+		// -yCar			0		(car is on the ground)
+		if(this.crane.getPos() == 'R' && this.car.getPos() == 'R' && this.crane.getArmPos() == 'I' && this.car.get_y() == 0){
+			this.crane.update(currTime, 1);
+		}
+
+		// -Crane Pos R																						  ^
+		// -Car Pos   R						CAR IS 'ATTRACTED' TO MAGNET yCAr |
+		// -Arm Pos   F
+		// -yCar			0		(car is on the ground)
+		if(this.crane.getPos() == 'R' && this.car.getPos() == 'R' && this.crane.getArmPos() == 'F' && this.car.get_y() == 0){
+			if(this.car.get_y() < this.yCarMax){
+				this.car.inc_y(this.yCarMax/3);
 			}
 		}
 
-		if(this.crane.pos() == 'R'){
-			if( !this.crane.getRot() && !this.crane.getTrans() ){
-				this.crane.update(currTime, 1);
-				if(this.count1 < 10){ this.car.inc_y(this.yAdjUp[this.count1]); this.car.inc_z(this.xAdjUp[this.count1++]); };
-			}
-			if( this.crane.getTrans() ){
-				this.crane.update(currTime, 0);
-				if(this.ang < Math.PI){
-					var x = Math.cos(this.ang);
-					var z = Math.sin(this.ang);
-					this.car.inc_x(x);
-					this.car.inc_z(z-0.14);
-					this.ang += Math.PI/20;
-				}
-			}
-			if( this.crane.getRot() ){
-				if(this.count2 > 0) this.car.inc_y(-this.yAdjUp[this.count2--]);
-				if(this.count2 == 0) { this.car.set_y(0); /*this.count2 = 9; */ this.car.resetMov(); }
+		// -Crane Pos R
+		// -Car Pos   R						CRANE ARM HAS TO RISE F -> I  CAR HAS TO GO WITH IT
+		// -Arm Pos   F
+		// -yCar			!= 0 	(car is on the magnet)
+		if(this.crane.getPos() == 'R' && this.car.getPos() == 'R' && this.crane.getArmPos() == 'F' && this.car.get_y() != 0){
+			this.crane.update(currTime, 2);
+			this.car.set_z(-this.crane.getArmX() + 1.7);
+			this.carLastZ = -this.crane.getArmX()+1.7;
+			var y = 7.3*Math.sin(3*Math.PI/8) - 0.35*Math.sin(Math.PI/8) + this.crane.getArmY() -2.75 -0.3;
+			this.car.set_y(y);
+			this.yAdj.push(y);
+			this.count1++;
+		}
+
+		// -Crane Pos R
+		// -Car Pos   R						CRANE HAS TO ROTATE FROM R -> D CAR ALSO ROTATES
+		// -Arm Pos   I
+		// -yCar			!= 0 	(car is on the magnet)
+		if(this.crane.getPos() == 'R' && this.car.getPos() == 'R' && this.crane.getArmPos() == 'I' && this.car.get_y() != 0){
+			this.crane.update(currTime, 3);
+			if(-Math.PI <= this.ang){
+				var z = this.radius * Math.cos(this.ang) -this.r2 -this.r1 -this.carLastZ -0.3;
+				var x = this.radius * Math.sin(-this.ang);
+
+				this.car.set_z(-z);
+				this.car.set_x(x);
+				this.ang -= Math.PI/20;
+			}else{
+				this.car.resetMov();
 			}
 		}
-	}
-}
+
+		// -Crane Pos D
+		// -Car Pos   M						CRANE IS ON D CAR HAS TO LOWER yCAR
+		// -Arm Pos   I
+		// -yCar			!= 0 	(car is on the magnet)
+		if(this.crane.getPos() == 'D' && this.car.getPos() == 'M' && this.crane.getArmPos() == 'I' && this.car.get_y() != 0){
+			if(this.count1 >= 0){
+				this.car.set_y(this.yAdj[this.count1--]);
+			}else{
+				if(this.count2 < 3){
+					this.car.set_y(this.yCarMax/3);
+					this.count2++;
+				}else{
+					this.car.set_y(0);					//Security measure to make sure yCar is 0
+					this.enableDummy = true;		//Enables Dummy Car on D position
+					this.carDummyAppearance = this.vehicleAppearances[this.currVehicleAppearance];			//Appearance of user vehicle
+					this.xDummy = this.car.get_z();			//Postion of user vehicle
+				}
+			}
+		}
+	};
 };

@@ -14,26 +14,14 @@ class MyCrane extends CGFobject
 		//BASE
 		this.base = new MyCraneBase(scene);
 
-		this.angArmD = [50, 40, 30,  20, 10, 9, 8, 7, 6, 5];
-		this.xArmD = [2.3, 2.3, 2.3, 2.3, 2.1, 2.1, 2, 2, 1.9, 1.7];
-		this.yArmD = [-1.8, -1.9, -1.9, -2, -2.4, -2.5, -2.5, -2.7, -2.8, -2.8];
-
-		this.count1 = 0;
-		this.count2 = 9;
-
 		this.currPos = 'D';
-		this.rot = false;
-		this.trans = false;
+		this.armPos = 'I';
+
+		this.angArm = [40, 30, 20, 10, 9, 8, 7, 6, 5];
+		this.count1 = 0;
+		this.count2 = 8;
 
 		this.initBuffers();
-	};
-
-	getRot(){
-		return this.rot;
-	};
-
-	getTrans(){
-		return this.trans;
 	};
 
 	display(scene)
@@ -41,63 +29,74 @@ class MyCrane extends CGFobject
 		this.base.display();
 	};
 
-	update(currTime, dir){
-		if(dir == 0 && this.currPos == 'D'){
-			this.rotateBase_DR();			//Rotates [Base + Arm] de D -> R
-		}else if(dir == 0 && this.currPos == 'R'){
-			this.rotateBase_RD();			//Rotates [Base + Arm] (+ car) de R -> D
-		}
-
-		if(dir == 1 && this.currPos == 'D'){
-			this.armDown_DR();				//Translate [Arm]
-		}else if(dir == 1 && this.currPos == 'R'){
-			this.armUp_RD();					//Translate [Arm] (+ car)
-		}
-	};
-
-	rotateBase_DR(){
-		if(this.base.getAngleB() > 0){
-			this.base.decAngleB(Math.PI/20);
-		}else{
-			this.rot = true;
+	update(currTime, dir)
+	{
+		switch (dir) {
+			case 0:
+				this.rotDR();
+				break;
+			case 1:
+				this.armDown();
+				break;
+			case 2:
+				this.armUp();
+				break;
+			case 3:
+				this.rotRD();
+				break;
 		}
 	};
 
-	rotateBase_RD(){
-		if(this.base.getAngleB() <= 0 && this.base.getAngleB() > -Math.PI){
-			this.base.decAngleB(Math.PI/20);
+	rotDR()
+	{
+		if(this.base.getAngle() > 0){
+			this.base.decAngle(Math.PI/20);
 		}else{
-			this.rot = true;
-		}
-	};
-
-	armDown_DR(){
-		if(this.count1 < 10){
-			this.base.downArm(-Math.PI/this.angArmD[this.count1], this.xArmD[this.count1], this.yArmD[this.count1]);
-			this.count1++;
-		}else{
-			this.count1 = 0;
-			this.trans = true;
 			this.currPos = 'R';
 		}
 	};
 
-	armUp_RD(){
-		if(this.count2 >= 0){
-			this.base.downArm(-Math.PI/this.angArmD[this.count2], this.xArmD[this.count2], this.yArmD[this.count2]);
-			this.count2--;
+	armDown()
+	{
+		if(this.count1 < 9){
+			this.base.movArm(Math.PI/this.angArm[this.count1++]);
 		}else{
-			this.trans = true;
-			this.count2 = 0;
+			this.armPos = 'F';
 		}
 	};
 
-	pos(){
+	armUp()
+	{
+		if(this.count2 >= 0){
+			this.base.movArm(Math.PI/this.angArm[this.count2--]);
+		}else{
+			this.armPos = 'I';
+		}
+	};
+
+	rotRD()
+	{
+		if(this.base.getAngle() <= 0 && this.base.getAngle() > -Math.PI){
+			this.base.decAngle(Math.PI/20);
+		}else{
+			this.currPos = 'D';
+		}
+	};
+
+	getPos()
+	{
 		return this.currPos;
 	};
 
-	reset(){
-		this.rot = false;
-		this.trans = false;
-	}
+	getArmPos(){
+		return this.armPos;
+	};
+
+	getArmX(){
+		return this.base.getArmX();
+	};
+
+	getArmY(){
+		return this.base.getArmY();
+	};
 };
