@@ -14,9 +14,13 @@ class MyCrane extends CGFobject
 		//BASE
 		this.base = new MyCraneBase(scene);
 
+		/** CRANE LOGIC **/
+		//CRANE POS
 		this.currPos = 'D';
+		//ARM POS
 		this.armPos = 'I';
 
+		/** CRANE MOVEMENT LOGIC **/
 		this.angArm = [40, 30, 20, 10, 9, 8, 7, 6, 5];
 		this.count1 = 0;
 		this.count2 = 8;
@@ -88,15 +92,18 @@ class MyCrane extends CGFobject
 		return this.currPos;
 	};
 
-	getArmPos(){
+	getArmPos()
+	{
 		return this.armPos;
 	};
 
-	getArmX(){
+	getArmX()
+	{
 		return this.base.getArmX();
 	};
 
-	getArmY(){
+	getArmY()
+	{
 		return this.base.getArmY();
 	};
 };

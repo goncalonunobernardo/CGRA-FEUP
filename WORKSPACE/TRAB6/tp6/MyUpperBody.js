@@ -54,7 +54,7 @@ class MyUpperBody extends CGFobject
 		this.scene.popMatrix();
 
 		//WINDOWB
-		this.scene.pushMatrix();
+			this.scene.pushMatrix();
 			this.scene.translate(-0.875, 1.25, 0);
 			this.scene.rotate(-Math.PI/2, 0, 1, 0);
 			this.topAppearance.apply();

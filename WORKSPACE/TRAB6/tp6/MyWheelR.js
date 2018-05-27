@@ -39,13 +39,15 @@ class MyWheelR extends CGFobject
 		this.initBuffers();
 	};
 
-	setAng(ang){
+	setAng(ang)
+	{
 		this.ang = ang;
 	}
 
 	display(scene)
 	{
 		this.scene.pushMatrix();
+
 			this.scene.rotate(this.ang, 0, 0, 1);
 
 			//WHEEL
@@ -60,7 +62,8 @@ class MyWheelR extends CGFobject
 				this.scene.scale(0.45, 0.45, 0.15);
 				this.coverAppearance.apply();
 				this.cover.display();
-				this.scene.popMatrix();
+			this.scene.popMatrix();
+
 		this.scene.popMatrix();
 	};
 };

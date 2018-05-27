@@ -59,18 +59,20 @@ class LightingScene extends CGFscene
 
 		this.carDummyAppearance = new CGFappearance(this);
 
-		/** CRANE MOVEMENT LOGIC **/
+		/** DUMMY CAR LOGIC **/
 		this.enableDummy = false;
 		this.xDummy = 0;
+
+		/** CRANE MOVEMENT LOGIC **/
 		this.xCrane = 7.3*Math.cos(3*Math.PI/8) + 0.35*Math.cos(Math.PI/8) +
-									Math.sqrt(0.25*0.25 + 2.3*2.3) * Math.sin(Math.atan(2.3/0.25) - Math.PI/5);
+		Math.sqrt(0.25*0.25 + 2.3*2.3) * Math.sin(Math.atan(2.3/0.25) - Math.PI/5);
 		this.yCarMax = 7.3*Math.sin(3*Math.PI/8) - 0.35*Math.sin(Math.PI/8) -
-									 Math.sqrt(0.25*0.25 + 2.3*2.3) * Math.cos(Math.atan(2.3/0.25) - Math.PI/5) -1.7 -2.75;
+		Math.sqrt(0.25*0.25 + 2.3*2.3) * Math.cos(Math.atan(2.3/0.25) - Math.PI/5) -1.7 -2.75;
 		this.yAdj = [];
 		this.count1 = 0;
 		this.carLastZ = 0;
 		this.radius = 7.3*Math.cos(3*Math.PI/8) + 0.35*Math.cos(Math.PI/8) +
-									Math.sqrt(0.25*0.25 + 2.3*2.3) * Math.sin(Math.atan(2.3/0.25) - Math.PI/40);
+		Math.sqrt(0.25*0.25 + 2.3*2.3) * Math.sin(Math.atan(2.3/0.25) - Math.PI/40);
 		this.ang = 0;
 		this.r1 = 7.3*Math.cos(3*Math.PI/8) + 0.35*Math.cos(Math.PI/8);
 		this.r2 =	Math.sqrt(0.25*0.25 + 2.3*2.3) * Math.sin(Math.atan(2.3/0.25) - Math.PI/40);
@@ -83,9 +85,9 @@ class LightingScene extends CGFscene
 
 		/*** LIGHT GROUP ***/
 		this.Light1=true;
-		this.Light2=true;
-		this.Light3=true;
-		this.Light4=true;
+		this.Light2=false;
+		this.Light3=false;
+		this.Light4=false;
 
 		/*** TEXTURE GROUP ***/
 		this.vehicleAppearances = [this.greenRustAppearance, this.redRustAppearance];
@@ -122,6 +124,7 @@ class LightingScene extends CGFscene
 		this.sign = new MyUnitCubeQuad(this, 0, 1, 0, 1);
 		//VOLUME BELOW TERRAIN
 		this.below_terrain = new MyUnitCubeQuad(this, 0, 1, 0, 1);
+		this.skyBox = new MySkyBox(this, 0, 1, 0, 1);
 	};
 
 	initCameras()
@@ -255,7 +258,7 @@ class LightingScene extends CGFscene
 			this.scale(50, 44, 5);
 			this.below_terrainAppearance.apply();
 			this.below_terrain.display();
-		this.popMatrix();
+			this.popMatrix();
 
 		//DESTROYED_CARS1
 		this.pushMatrix();
@@ -294,7 +297,7 @@ class LightingScene extends CGFscene
 			this.translate(12, 1.3, 17);
 			this.rotate(Math.PI/3, 1, 0, 0);
 			this.destroyed_wheels.display();
-		this.popMatrix();
+			this.popMatrix();
 
 		//DESTROYED_UPPERBODY1
 		this.pushMatrix();
@@ -307,6 +310,11 @@ class LightingScene extends CGFscene
 		this.pushMatrix();
 			this.translate(15, -1.3, 8);
 			this.destroyed_upperbody.display();
+		this.popMatrix();
+
+		this.pushMatrix();
+			this.scale(150, 150, 150);
+			this.skyBox.display();
 		this.popMatrix();
 	};
 
@@ -359,7 +367,7 @@ class LightingScene extends CGFscene
 		var text="Key pressed: ";
 		var keysPressed=false;
 		if(!this.pause) {
-		this.car.update(currTime);													//update function on car
+			this.car.update(currTime);													//update function on car
 
 			if (this.gui.isKeyPressed("KeyW")) {							/** - - - - - --  - **/
 				text+=" W ";

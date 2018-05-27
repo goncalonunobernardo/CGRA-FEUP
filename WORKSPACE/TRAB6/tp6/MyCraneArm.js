@@ -87,18 +87,21 @@ class MyCraneArm extends CGFobject
     this.scene.popMatrix();
   };
 
-  movArm(ang){
+  movArm(ang)
+  {
     this.angRot = ang;
     this.angA = Math.atan(2.3/0.25) - this.angRot;
     this.x = this.hip * Math.sin(this.angA);
     this.y = this.hip * Math.cos(this.angA);
   };
 
-  get_x(){
+  get_x()
+  {
     return this.x;
   };
 
-  get_y(){
+  get_y()
+  {
     return -this.y-1.4;
   };
 

@@ -39,14 +39,15 @@ class MyWheelL extends CGFobject
 		this.initBuffers();
 	};
 
-
-	setAng(ang){
+	setAng(ang)
+	{
 		this.ang = ang;
 	}
 
 	display(scene)
 	{
 		this.scene.pushMatrix();
+
 			this.scene.rotate(this.ang, 0, 0, 1);
 
 			//WHEEL

@@ -49,6 +49,10 @@ class MyVehicle extends CGFobject
     this.wheelL = new MyWheelL(this.scene);
     //WHEEL IN RIGHT
     this.wheelR = new MyWheelR(this.scene);
+    //EXHAUST
+    this.exhaust = new MyExhaust(this.scene);
+    //LAMP
+    this.lamp = new MyLamp(this.scene);
   };
 
   display(scene)
@@ -95,6 +99,26 @@ class MyVehicle extends CGFobject
         this.wheelR.display();
       this.scene.popMatrix();
 
+      //EXHAUST LEFT
+      this.scene.pushMatrix();
+        this.scene.translate(-2.2, -0.75, 0.75);
+        this.scene.rotate(Math.PI/5, 0, 1, 0);
+        this.scene.rotate(Math.PI/20, 0, 0, 1);
+        this.exhaust.display();
+      this.scene.popMatrix();
+
+      //LAMP LEFT
+      this.scene.pushMatrix();
+        this.scene.translate(2, 0.5, 0.7);
+        this.lamp.display();
+      this.scene.popMatrix();
+
+      //LAMP RIGHT
+      this.scene.pushMatrix();
+        this.scene.translate(2, 0.4, -0.7);
+        this.lamp.display();
+      this.scene.popMatrix();
+
     this.scene.popMatrix();
   };
 
@@ -119,7 +143,8 @@ class MyVehicle extends CGFobject
     if(this.a>0) this.a-= 0.4;
   }
 
-  moveForward(amount) {
+  moveForward(amount)
+  {
     var xval = amount * Math.cos(this.x_z_angle);
     var zval = amount * Math.sin(this.x_z_angle);
 
@@ -130,7 +155,8 @@ class MyVehicle extends CGFobject
     this.wheelR.setAng(-this.x);
   };
 
-  pushForward(amount) {
+  pushForward(amount)
+  {
     if(this.y != 0) return;
     if(Math.abs(this.h_speed + amount) <= this.max_h_speed) this.h_speed += amount;
     else if (this.h_speed > 0) this.h_speed = this.max_h_speed;
@@ -143,7 +169,8 @@ class MyVehicle extends CGFobject
     this.pushForward(-amount);
   };
 
-  pushLeft(amount) {
+  pushLeft(amount)
+  {
     if(this.y != 0) return;
     if(Math.abs(this.h_speed) < 0.05) { this.h_angspeed = 0; amount = 0}
     if(Math.abs(this.h_angspeed + amount) <= this.max_h_angspeed)
@@ -152,7 +179,8 @@ class MyVehicle extends CGFobject
     else this.h_angspeed = -this.max_h_angspeed
   };
 
-  pushRight(amount){
+  pushRight(amount)
+  {
     if(this.y != 0) return;
     if(Math.abs(this.h_speed) < 0.05) { this.h_angspeed =0; amount = 0}
     if(Math.abs(this.h_angspeed - amount) <= this.max_h_angspeed)
@@ -161,7 +189,8 @@ class MyVehicle extends CGFobject
     else this.h_angspeed = -this.max_h_angspeed;
   };
 
-  rotateRight(amount){
+  rotateRight(amount)
+  {
     this.x_z_angle -= amount;
 
     if(this.scene.car.h_rotation_ang < 45 && amount >0.01) { this.scene.car.h_rotation_ang += 5; this.scene.car.wheelAngle = -Math.PI/6 + 0.2; }
@@ -169,51 +198,43 @@ class MyVehicle extends CGFobject
     if(this.scene.car.h_speed == 0) { this.scene.car.wheelAngle = 0 }
   };
 
-  get_x() {
-    return this.x;
-  };
-
-  get_y(){
+  get_y()
+  {
     return this.y;
   };
 
-  get_z() {
+  get_z()
+  {
     return this.z;
   };
 
-  get_h_angle() {
-    return this.h_angspeed;
-  };
-
-  set_x(x){
+  set_x(x)
+  {
     this.x = x;
   };
 
-  set_y(y){
+  set_y(y)
+  {
     this.y = y;
   };
 
-  set_z(z){
+  set_z(z)
+  {
     this.z = z;
   };
 
-  inc_x(x){
-    this.x +=x;
-  };
-
-  inc_y(y){
+  inc_y(y)
+  {
     this.y += y;
   };
 
-  inc_z(z){
-    this.z += z;
-  };
-
-  resetMov(){
+  resetMov()
+  {
     this.mov = false;
   };
 
-  getPos(){
+  getPos()
+  {
     if(this.mov) return 'R';
 
     if(this.z == 0){

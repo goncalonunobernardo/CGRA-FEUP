@@ -90,23 +90,28 @@ class MyCraneBase extends CGFobject
     this.craneArm.display();
   };
 
-  decAngle(ang){
+  decAngle(ang)
+  {
     this.ang -= ang;
   };
 
-  getAngle(){
+  getAngle()
+  {
     return this.ang;
   };
 
-  movArm(ang){
+  movArm(ang)
+  {
     this.craneArm.movArm(ang);
   };
 
-  getArmX(){
+  getArmX()
+  {
     return this.craneArm.get_x();
   };
 
-  getArmY(){
+  getArmY()
+  {
     return this.craneArm.get_y();
   };
 };
