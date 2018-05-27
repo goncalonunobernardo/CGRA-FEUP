@@ -48,6 +48,11 @@ class LightingScene extends CGFscene
 		this.signAppearance.setShininess(50);
 		this.signAppearance.loadTexture("../resources/images/Pandora_Borderlands.png");
 
+		this.below_terrainAppearance = new CGFappearance(this);
+		this.below_terrainAppearance.setAmbient(0.5, 0.5, 0.5, 1);
+		this.below_terrainAppearance.setDiffuse(0.5, 0.5, 0.5, 1);
+		this.below_terrainAppearance.setSpecular(1, 1, 1, 1);
+		this.signAppearance.setShininess(50);
 		/*** UPDATE TIME ***/
 		this.speed= 1;
 		this.updatePeriod=100;
@@ -85,9 +90,11 @@ class LightingScene extends CGFscene
 
 		/*** SCENE ELEMENTS ***/
 		this.car = new MyVehicle(this,);
+		this.destroyed_cars = new MyVehicle(this);
 		this.terrain = new MyTerrain(this, 8, this.altimetry);
 		this.crane = new MyCrane(this);
 		this.sign = new MyUnitCubeQuad(this, 0, 1, 0, 1);
+		this.below_terrain = new MyUnitCubeQuad(this, 0, 1, 0, 1);
 	};
 
 	initCameras()
@@ -203,6 +210,21 @@ class LightingScene extends CGFscene
 			this.scale(0.02, 7, 10);
 			this.signAppearance.apply();
 			this.sign.display();
+		this.popMatrix();
+
+		//DESTROYED_CARS
+		this.pushMatrix();
+			this.translate(0, 1.3, 0);
+			this.redRustAppearance.apply();
+			this.destroyed_cars.display();
+		this.popMatrix();
+
+		//BELOW_PLANE
+		this.pushMatrix();
+			this.rotate(Math.PI/2, 1,0,0);
+			this.translate(0,3.5,2.6);
+			this.scale(50,44,5);
+			this.below_terrain.display();
 		this.popMatrix();
 	};
 
